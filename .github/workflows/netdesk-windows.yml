@@ -1,0 +1,70 @@
+name: Build NetDesk Windows
+
+on:
+  workflow_dispatch: # Manual trigger
+
+env:
+  SCITER_RUST_VERSION: "1.75"
+  LLVM_VERSION: "15.0.6"
+  FLUTTER_VERSION: "3.24.5"
+  VCPKG_COMMIT_ID: "120deac3062162151622ca4860575a33844ba10b"
+  VERSION: "1.4.6"
+  APP_NAME: "NetDesk"
+
+jobs:
+  build-windows:
+    name: Build Windows x64
+    runs-on: windows-2022
+    
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Install LLVM and Clang
+        uses: KyleMayes/install-llvm-action@v1
+        with:
+          version: ${{ env.LLVM_VERSION }}
+
+      - name: Install flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: "stable"
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@v1
+        with:
+          toolchain: ${{ env.SCITER_RUST_VERSION }}
+          targets: x86_64-pc-windows-msvc
+
+      - name: Setup vcpkg
+        uses: lukka/run-vcpkg@v11
+        with:
+          vcpkgDirectory: C:\vcpkg
+          vcpkgGitCommitId: ${{ env.VCPKG_COMMIT_ID }}
+
+      - name: Install vcpkg dependencies
+        run: |
+          & $env:VCPKG_ROOT\vcpkg install --triplet x64-windows-static --x-install-root="$env:VCPKG_ROOT\installed"
+
+      - name: Build NetDesk
+        shell: bash
+        run: |
+          python3 build.py --portable --hwcodec --flutter --vram --skip-portable-pack
+          mv ./flutter/build/windows/x64/runner/Release ./rustdesk-bin
+
+      - name: Build MSI
+        shell: pwsh
+        run: |
+          cd res/msi
+          python3 preprocess.py --arp -d ../../rustdesk-bin
+          # Skip msbuild if Wix is not installed, but usually it is on windows-2022
+          # For now, let's just pack the bin folder
+          
+      - name: Upload Windows Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: netdesk-windows-x64
+          path: rustdesk-bin/
