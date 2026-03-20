@@ -1,0 +1,86 @@
+name: Build NetDesk macOS
+
+on:
+  workflow_dispatch: # Allows manual trigger from GitHub Actions tab
+
+env:
+  MAC_RUST_VERSION: "1.81"
+  FLUTTER_VERSION: "3.24.5"
+  VCPKG_COMMIT_ID: "120deac3062162151622ca4860575a33844ba10b"
+  VERSION: "1.4.6"
+  APP_NAME: "NetDesk"
+
+jobs:
+  build-macos:
+    name: Build macOS DMG (${{ matrix.arch }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - arch: aarch64
+            os: macos-14
+            vcpkg-triplet: arm64-osx
+          - arch: x86_64
+            os: macos-15-intel
+            vcpkg-triplet: x64-osx
+            
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Install build runtime
+        run: |
+          brew install llvm create-dmg pkg-config
+          wget https://www.nasm.us/pub/nasm/releasebuilds/2.16.03/macosx/nasm-2.16.03-macosx.zip
+          unzip nasm-2.16.03-macosx.zip
+          sudo cp nasm-2.16.03/nasm /usr/local/bin/nasm
+
+      - name: Install flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: "stable"
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@v1
+        with:
+          toolchain: ${{ env.MAC_RUST_VERSION }}
+          targets: ${{ matrix.arch }}-apple-darwin
+
+      - name: Setup vcpkg
+        uses: lukka/run-vcpkg@v11
+        with:
+          vcpkgGitCommitId: ${{ env.VCPKG_COMMIT_ID }}
+
+      - name: Install vcpkg dependencies
+        run: |
+          $VCPKG_ROOT/vcpkg install --x-install-root="$VCPKG_ROOT/installed"
+
+      - name: Build NetDesk
+        run: |
+          # Ensure deployment target is set correctly for modern macOS
+          if [ "${{ matrix.arch }}" = "aarch64" ]; then
+            export MACOSX_DEPLOYMENT_TARGET="12.3"
+          else
+            export MACOSX_DEPLOYMENT_TARGET="10.14"
+          fi
+          python3 ./build.py --flutter --hwcodec --screencapturekit
+
+      - name: Create DMG
+        run: |
+          create-dmg \
+            --icon "${{ env.APP_NAME }}.app" 200 190 \
+            --hide-extension "${{ env.APP_NAME }}.app" \
+            --window-size 800 400 \
+            --app-drop-link 600 185 \
+            "netdesk-${{ env.VERSION }}-${{ matrix.arch }}.dmg" \
+            "./flutter/build/macos/Build/Products/Release/${{ env.APP_NAME }}.app"
+
+      - name: Upload DMG Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: netdesk-macos-${{ matrix.arch }}
+          path: "*.dmg"

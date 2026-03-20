@@ -125,11 +125,14 @@ fn link_homebrew_m1(name: &str) -> PathBuf {
 fn find_package(name: &str) -> Vec<PathBuf> {
     let no_pkg_config_var_name = format!("NO_PKG_CONFIG_{name}");
     println!("cargo:rerun-if-env-changed={no_pkg_config_var_name}");
-    if cfg!(all(target_os = "linux", feature = "linux-pkg-config"))
+    if (cfg!(all(target_os = "linux", feature = "linux-pkg-config")) || cfg!(target_os = "macos"))
         && std::env::var(no_pkg_config_var_name).as_deref() != Ok("1")
     {
-        link_pkg_config(name)
-    } else if let Ok(vcpkg_root) = std::env::var("VCPKG_ROOT") {
+        if let Ok(lib) = pkg_config::probe_library(name) {
+            return lib.include_paths;
+        }
+    }
+    if let Ok(vcpkg_root) = std::env::var("VCPKG_ROOT") {
         vec![link_vcpkg(vcpkg_root.into(), name)]
     } else {
         // Try using homebrew
@@ -157,6 +160,8 @@ fn generate_bindings(
     for dir in include_paths {
         b = b.clang_arg(format!("-I{}", dir.display()));
     }
+    b = b.clang_arg("-I/opt/homebrew/include");
+    b = b.clang_arg("-I/opt/homebrew/opt/llvm/include");
 
     b.generate().unwrap().write_to_file(ffi_rs).unwrap();
     fs::copy(ffi_rs, exact_file).ok(); // ignore failure

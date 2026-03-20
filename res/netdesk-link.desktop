@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=NetDesk
+NoDisplay=true
+MimeType=x-scheme-handler/netdesk;
+TryExec=netdesk
+Exec=netdesk %u
+Icon=netdesk
+Terminal=false
+Type=Application
+StartupNotify=false
+StartupWMClass=netdesk
