@@ -115,12 +115,28 @@ jobs:
           cp "$RUST_RELEASE_DIR/libnetdesk.dylib" target/release/netdesk.dylib
           [ -f "$RUST_RELEASE_DIR/service" ] && cp "$RUST_RELEASE_DIR/service" target/release/service || true
 
+      - name: Verify dylib before Flutter build
+        run: |
+          DYLIB="target/release/libnetdesk.dylib"
+          if [ ! -f "$DYLIB" ]; then
+            echo "ERROR: $DYLIB not found! The Rust build may have failed."
+            exit 1
+          fi
+          echo "=== dylib architecture ==="
+          lipo -info "$DYLIB"
+
       - name: Build Flutter macOS app
         env:
           MACOSX_DEPLOYMENT_TARGET: ${{ matrix.deployment_target }}
         run: |
+          # The Xcode project looks for libnetdesk.dylib at ../../target/release relative to flutter/macos/
+          # We explicitly provide the LIBRARY_SEARCH_PATHS override to ensure Xcode finds it
+          DYLIB_DIR="$(pwd)/target/release"
           pushd flutter
-          flutter build macos --release
+          flutter build macos --release \
+            --dart-define=CI=true \
+            -- \
+            LIBRARY_SEARCH_PATHS="$DYLIB_DIR \$(inherited)"
           popd
 
       - name: Verify app bundle and copy service binary
