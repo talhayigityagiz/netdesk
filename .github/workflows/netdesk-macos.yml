@@ -21,9 +21,11 @@ jobs:
           - arch: aarch64
             os: macos-14
             vcpkg-triplet: arm64-osx
+            deployment_target: "12.3"
           - arch: x86_64
             os: macos-15-intel
             vcpkg-triplet: x64-osx
+            deployment_target: "10.14"
             
     steps:
       - name: Checkout source code
@@ -69,15 +71,34 @@ jobs:
         run: |
           $VCPKG_ROOT/vcpkg install --x-install-root="$VCPKG_ROOT/installed"
 
-      - name: Build NetDesk
+      - name: Build Rust library
+        env:
+          MACOSX_DEPLOYMENT_TARGET: ${{ matrix.deployment_target }}
         run: |
-          # Ensure deployment target is set correctly for modern macOS
-          if [ "${{ matrix.arch }}" = "aarch64" ]; then
-            export MACOSX_DEPLOYMENT_TARGET="12.3"
-          else
-            export MACOSX_DEPLOYMENT_TARGET="10.14"
+          cargo build --features hwcodec,screencapturekit --release
+          # Copy the dylib with the correct name
+          cp target/release/libnetdesk.dylib target/release/netdesk.dylib
+
+      - name: Build Flutter macOS app
+        env:
+          MACOSX_DEPLOYMENT_TARGET: ${{ matrix.deployment_target }}
+        run: |
+          pushd flutter
+          flutter build macos --release
+          popd
+
+      - name: Verify app bundle and copy service binary
+        run: |
+          APP_PATH="./flutter/build/macos/Build/Products/Release/${{ env.APP_NAME }}.app"
+          echo "Listing Release directory:"
+          ls -al ./flutter/build/macos/Build/Products/Release/
+          if [ ! -d "$APP_PATH" ]; then
+            echo "ERROR: $APP_NAME.app not found. Found instead:"
+            ls ./flutter/build/macos/Build/Products/Release/
+            exit 1
           fi
-          python3 ./build.py --flutter --hwcodec --screencapturekit
+          echo "Found $APP_NAME.app — copying service binary..."
+          cp -rf target/release/service "$APP_PATH/Contents/MacOS/"
 
       - name: Create DMG
         run: |
