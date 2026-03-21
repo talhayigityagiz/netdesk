@@ -105,7 +105,7 @@ jobs:
           RUST_TARGET="${{ matrix.arch }}-apple-darwin"
           cargo build \
             --target "$RUST_TARGET" \
-            --features hwcodec,screencapturekit \
+            --features flutter,hwcodec,screencapturekit \
             --release
           
           RUST_RELEASE_DIR="target/$RUST_TARGET/release"
