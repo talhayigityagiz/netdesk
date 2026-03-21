@@ -62,22 +62,48 @@ jobs:
           toolchain: ${{ env.MAC_RUST_VERSION }}
           targets: ${{ matrix.arch }}-apple-darwin
 
-      - name: Setup vcpkg
+      - name: Setup vcpkg with retry
         uses: lukka/run-vcpkg@v11
         with:
           vcpkgGitCommitId: ${{ env.VCPKG_COMMIT_ID }}
+        env:
+          VCPKG_DEFAULT_TRIPLET: ${{ matrix.vcpkg-triplet }}
 
       - name: Install vcpkg dependencies
         run: |
-          $VCPKG_ROOT/vcpkg install --x-install-root="$VCPKG_ROOT/installed"
+          $VCPKG_ROOT/vcpkg install \
+            --triplet ${{ matrix.vcpkg-triplet }} \
+            --x-install-root="$VCPKG_ROOT/installed"
 
-      - name: Build Rust library
+      - name: Build Rust library for ${{ matrix.arch }}
         env:
           MACOSX_DEPLOYMENT_TARGET: ${{ matrix.deployment_target }}
+          CARGO_TARGET_AARCH64_APPLE_DARWIN_LINKER: "clang"
+          CARGO_TARGET_X86_64_APPLE_DARWIN_LINKER: "clang"
         run: |
-          cargo build --features hwcodec,screencapturekit --release
-          # Copy the dylib with the correct name
-          cp target/release/libnetdesk.dylib target/release/netdesk.dylib
+          RUST_TARGET="${{ matrix.arch }}-apple-darwin"
+          # Build the Rust library targeting the correct architecture
+          cargo build \
+            --target "$RUST_TARGET" \
+            --features hwcodec,screencapturekit \
+            --release
+          
+          # The output path includes the target triple when --target is specified
+          RUST_RELEASE_DIR="target/$RUST_TARGET/release"
+          
+          echo "Verifying Rust build output:"
+          ls -al "$RUST_RELEASE_DIR/libnetdesk.dylib" || { echo "ERROR: libnetdesk.dylib not found!"; exit 1; }
+          
+          # Copy the dylib to both the arch-specific and generic release directory
+          # so the Xcode project can find it at ../../target/release/libnetdesk.dylib
+          mkdir -p target/release
+          cp "$RUST_RELEASE_DIR/libnetdesk.dylib" target/release/libnetdesk.dylib
+          cp "$RUST_RELEASE_DIR/libnetdesk.dylib" target/release/netdesk.dylib
+          
+          # Also copy the service binary if it exists
+          if [ -f "$RUST_RELEASE_DIR/service" ]; then
+            cp "$RUST_RELEASE_DIR/service" target/release/service
+          fi
 
       - name: Build Flutter macOS app
         env:
@@ -90,15 +116,20 @@ jobs:
       - name: Verify app bundle and copy service binary
         run: |
           APP_PATH="./flutter/build/macos/Build/Products/Release/${{ env.APP_NAME }}.app"
-          echo "Listing Release directory:"
-          ls -al ./flutter/build/macos/Build/Products/Release/
+          echo "=== Listing Release directory ==="
+          ls -al ./flutter/build/macos/Build/Products/Release/ || true
           if [ ! -d "$APP_PATH" ]; then
-            echo "ERROR: $APP_NAME.app not found. Found instead:"
-            ls ./flutter/build/macos/Build/Products/Release/
+            echo "ERROR: ${{ env.APP_NAME }}.app not found in Release directory!"
             exit 1
           fi
-          echo "Found $APP_NAME.app — copying service binary..."
-          cp -rf target/release/service "$APP_PATH/Contents/MacOS/"
+          echo "Found ${{ env.APP_NAME }}.app"
+          # Copy service binary if it exists
+          if [ -f "target/release/service" ]; then
+            cp -rf target/release/service "$APP_PATH/Contents/MacOS/"
+            echo "Copied service binary."
+          else
+            echo "No service binary found, skipping."
+          fi
 
       - name: Create DMG
         run: |
