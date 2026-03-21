@@ -439,17 +439,17 @@ class _GeneralState extends State<_General> {
           value: 'light',
           groupValue: current,
           label: 'Light',
-          onChanged: isOptFixed ? null : onChanged),
+          onChanged: isOptFixed ? null : (val) => onChanged(val)),
       _Radio<String>(context,
           value: 'dark',
           groupValue: current,
           label: 'Dark',
-          onChanged: isOptFixed ? null : onChanged),
+          onChanged: isOptFixed ? null : (val) => onChanged(val)),
       _Radio<String>(context,
           value: 'system',
           groupValue: current,
           label: 'Follow System',
-          onChanged: isOptFixed ? null : onChanged),
+          onChanged: isOptFixed ? null : (val) => onChanged(val)),
     ]);
   }
 
@@ -1763,12 +1763,12 @@ class _DisplayState extends State<_Display> {
           value: kRemoteViewStyleOriginal,
           groupValue: groupValue,
           label: 'Scale original',
-          onChanged: isOptFixed ? null : onChanged),
+          onChanged: isOptFixed ? null : (val) => onChanged(val)),
       _Radio(context,
           value: kRemoteViewStyleAdaptive,
           groupValue: groupValue,
           label: 'Scale adaptive',
-          onChanged: isOptFixed ? null : onChanged),
+          onChanged: isOptFixed ? null : (val) => onChanged(val)),
     ]);
   }
 
@@ -1793,18 +1793,18 @@ class _DisplayState extends State<_Display> {
           value: kRemoteScrollStyleAuto,
           groupValue: groupValue,
           label: 'ScrollAuto',
-          onChanged: isOptFixed ? null : onChanged),
+          onChanged: isOptFixed ? null : (val) => onChanged(val)),
       _Radio(context,
           value: kRemoteScrollStyleBar,
           groupValue: groupValue,
           label: 'Scrollbar',
-          onChanged: isOptFixed ? null : onChanged),
+          onChanged: isOptFixed ? null : (val) => onChanged(val)),
       if (!isWeb) ...[
         _Radio(context,
             value: kRemoteScrollStyleEdge,
             groupValue: groupValue,
             label: 'ScrollEdge',
-            onChanged: isOptFixed ? null : onChanged),
+            onChanged: isOptFixed ? null : (val) => onChanged(val)),
         Offstage(
             offstage: groupValue != kRemoteScrollStyleEdge,
             child: EdgeThicknessControl(
@@ -1833,22 +1833,22 @@ class _DisplayState extends State<_Display> {
           value: kRemoteImageQualityBest,
           groupValue: groupValue,
           label: 'Good image quality',
-          onChanged: isOptFixed ? null : onChanged),
+          onChanged: isOptFixed ? null : (val) => onChanged(val)),
       _Radio(context,
           value: kRemoteImageQualityBalanced,
           groupValue: groupValue,
           label: 'Balanced',
-          onChanged: isOptFixed ? null : onChanged),
+          onChanged: isOptFixed ? null : (val) => onChanged(val)),
       _Radio(context,
           value: kRemoteImageQualityLow,
           groupValue: groupValue,
           label: 'Optimize reaction time',
-          onChanged: isOptFixed ? null : onChanged),
+          onChanged: isOptFixed ? null : (val) => onChanged(val)),
       _Radio(context,
           value: kRemoteImageQualityCustom,
           groupValue: groupValue,
           label: 'Custom',
-          onChanged: isOptFixed ? null : onChanged),
+          onChanged: isOptFixed ? null : (val) => onChanged(val)),
       Offstage(
         offstage: groupValue != kRemoteImageQualityCustom,
         child: customImageQualitySetting(),
@@ -1896,14 +1896,14 @@ class _DisplayState extends State<_Display> {
             value: 'h264',
             groupValue: groupValue,
             label: 'H264',
-            onChanged: isOptFixed ? null : onChanged));
+            onChanged: isOptFixed ? null : (val) => onChanged(val)));
       }
       if (h265) {
         hwRadios.add(_Radio(context,
             value: 'h265',
             groupValue: groupValue,
             label: 'H265',
-            onChanged: isOptFixed ? null : onChanged));
+            onChanged: isOptFixed ? null : (val) => onChanged(val)));
       }
     } catch (e) {
       debugPrint("failed to parse supported hwdecodings, err=$e");
@@ -1913,22 +1913,22 @@ class _DisplayState extends State<_Display> {
           value: 'auto',
           groupValue: groupValue,
           label: 'Auto',
-          onChanged: isOptFixed ? null : onChanged),
+          onChanged: isOptFixed ? null : (val) => onChanged(val)),
       _Radio(context,
           value: 'vp8',
           groupValue: groupValue,
           label: 'VP8',
-          onChanged: isOptFixed ? null : onChanged),
+          onChanged: isOptFixed ? null : (val) => onChanged(val)),
       _Radio(context,
           value: 'vp9',
           groupValue: groupValue,
           label: 'VP9',
-          onChanged: isOptFixed ? null : onChanged),
+          onChanged: isOptFixed ? null : (val) => onChanged(val)),
       _Radio(context,
           value: 'av1',
           groupValue: groupValue,
           label: 'AV1',
-          onChanged: isOptFixed ? null : onChanged),
+          onChanged: isOptFixed ? null : (val) => onChanged(val)),
       ...hwRadios,
     ]);
   }

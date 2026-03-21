@@ -526,7 +526,7 @@ Future<List<TToggleMenu>> toolbarCursor(
     final showCursorLockState = ShowRemoteCursorLockState.find(id);
     final showCursorEnabled = bind.sessionGetToggleOptionSync(
         sessionId: sessionId, arg: showCursorOption);
-    showCursorLockState.value = value;
+    showCursorLockState.value = value ?? false;
     if (value && !showCursorEnabled) {
       await bind.sessionToggleOption(
           sessionId: sessionId, value: showCursorOption);
@@ -541,7 +541,7 @@ Future<List<TToggleMenu>> toolbarCursor(
           await bind.sessionToggleOption(sessionId: sessionId, value: option);
           value = bind.sessionGetToggleOptionSync(
               sessionId: sessionId, arg: option);
-          showCursorLockState.value = value;
+          showCursorLockState.value = value ?? false ?? false;
           if (!showCursorEnabled) {
             await bind.sessionToggleOption(
                 sessionId: sessionId, value: showCursorOption);
