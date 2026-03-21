@@ -9,7 +9,7 @@ default-run = "netdesk"
 rust-version = "1.75"
 
 [lib]
-name = "librustdesk"
+name = "netdesk"
 crate-type = ["cdylib", "staticlib", "rlib"]
 
 [[bin]]

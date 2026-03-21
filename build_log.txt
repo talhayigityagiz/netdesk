@@ -1,0 +1,1399 @@
+warning: direct cast of function item into an integer
+  --> libs/hbb_common/src/platform/mod.rs:80:62
+   |
+80 | ...ler as _);
+   |        ^^^^
+   |
+   = note: `#[warn(function_casts_as_integer)]` on by default
+help: first cast to a pointer `as *const ()`
+   |
+80 |         libc::signal(libc::SIGSEGV, breakdown_signal_handler as *const () as _);
+   |                                                              ++++++++++++
+
+warning: `hbb_common` (lib) generated 1 warning (run `cargo fix --lib -p hbb_common` to apply 1 suggestion)
+warning: `hbb_common` (lib) generated 1 warning (1 duplicate)
+warning: unexpected `cfg` condition value: `cargo-clippy`
+   --> libs/enigo/src/macos/macos_impl.rs:176:36
+    |
+176 | ... { msg_send![ns_event, doubleClickInterval] };
+    |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: expected values for `feature` are: `serde`, `serde_derive`, and `with_serde`
+    = note: using a cfg inside a macro will use the cfgs from the destination crate and not the ones from the defining crate
+    = help: try referring to `sel_impl` crate for guidance on how handle this unexpected cfg
+    = help: the macro `sel_impl` may come from an old version of the `objc` crate, try updating your dependency with `cargo update -p objc`
+    = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+    = note: `#[warn(unexpected_cfgs)]` on by default
+    = note: this warning originates in the macro `sel_impl` which comes from the expansion of the macro `msg_send` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: unexpected `cfg` condition value: `cargo-clippy`
+   --> libs/enigo/src/macos/macos_impl.rs:484:22
+    |
+484 | ... { msg_send![ns_event, pressedMouseButtons] }
+    |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: expected values for `feature` are: `serde`, `serde_derive`, and `with_serde`
+    = note: using a cfg inside a macro will use the cfgs from the destination crate and not the ones from the defining crate
+    = help: try referring to `sel_impl` crate for guidance on how handle this unexpected cfg
+    = help: the macro `sel_impl` may come from an old version of the `objc` crate, try updating your dependency with `cargo update -p objc`
+    = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+    = note: this warning originates in the macro `sel_impl` which comes from the expansion of the macro `msg_send` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: unexpected `cfg` condition value: `cargo-clippy`
+   --> libs/enigo/src/macos/macos_impl.rs:541:40
+    |
+541 | ... { msg_send![ns_event, mouseLocation] };
+    |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: expected values for `feature` are: `serde`, `serde_derive`, and `with_serde`
+    = note: using a cfg inside a macro will use the cfgs from the destination crate and not the ones from the defining crate
+    = help: try referring to `sel_impl` crate for guidance on how handle this unexpected cfg
+    = help: the macro `sel_impl` may come from an old version of the `objc` crate, try updating your dependency with `cargo update -p objc`
+    = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+    = note: this warning originates in the macro `sel_impl` which comes from the expansion of the macro `msg_send` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: `enigo` (lib) generated 3 warnings
+warning: netdesk@1.4.6: src/platform/macos.mm:32:16: warning: 'CGPreflightScreenCaptureAccess' is only available on macOS 10.15 or newer [-Wunguarded-availability-new]
+warning: netdesk@1.4.6:    32 |     bool res = CGPreflightScreenCaptureAccess();
+warning: netdesk@1.4.6:       |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+warning: netdesk@1.4.6: /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/CoreGraphics.framework/Headers/CGWindow.h:295:16: note: 'CGPreflightScreenCaptureAccess' has been marked as being introduced in macOS 10.15 here, but the deployment target is macOS 10.14.0
+warning: netdesk@1.4.6:   295 | CG_EXTERN bool CGPreflightScreenCaptureAccess(void) API_AVAILABLE(macos(10.15));
+warning: netdesk@1.4.6:       |                ^
+warning: netdesk@1.4.6: src/platform/macos.mm:32:16: note: enclose 'CGPreflightScreenCaptureAccess' in an @available check to silence this warning
+warning: netdesk@1.4.6:    32 |     bool res = CGPreflightScreenCaptureAccess();
+warning: netdesk@1.4.6:       |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+warning: netdesk@1.4.6:    33 |     if (!res && prompt) {
+warning: netdesk@1.4.6:    34 |         CGRequestScreenCaptureAccess();
+warning: netdesk@1.4.6:    35 |     }
+warning: netdesk@1.4.6:    36 |     return res;
+warning: netdesk@1.4.6:       |
+warning: netdesk@1.4.6: src/platform/macos.mm:34:9: warning: 'CGRequestScreenCaptureAccess' is only available on macOS 10.15 or newer [-Wunguarded-availability-new]
+warning: netdesk@1.4.6:    34 |         CGRequestScreenCaptureAccess();
+warning: netdesk@1.4.6:       |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+warning: netdesk@1.4.6: /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/CoreGraphics.framework/Headers/CGWindow.h:298:16: note: 'CGRequestScreenCaptureAccess' has been marked as being introduced in macOS 10.15 here, but the deployment target is macOS 10.14.0
+warning: netdesk@1.4.6:   298 | CG_EXTERN bool CGRequestScreenCaptureAccess(void) API_AVAILABLE(macos(10.15));
+warning: netdesk@1.4.6:       |                ^
+warning: netdesk@1.4.6: src/platform/macos.mm:34:9: note: enclose 'CGRequestScreenCaptureAccess' in an @available check to silence this warning
+warning: netdesk@1.4.6:    34 |         CGRequestScreenCaptureAccess();
+warning: netdesk@1.4.6:       |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+warning: netdesk@1.4.6: src/platform/macos.mm:48:35: warning: 'IOHIDCheckAccess' is only available on macOS 10.15 or newer [-Wunguarded-availability-new]
+warning: netdesk@1.4.6:    48 |         IOHIDAccessType theType = IOHIDCheckAccess(kIOHIDRequestTypeListenEvent);
+warning: netdesk@1.4.6:       |                                   ^~~~~~~~~~~~~~~~
+warning: netdesk@1.4.6: /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/IOKit.framework/Headers/hidsystem/IOHIDLib.h:192:17: note: 'IOHIDCheckAccess' has been marked as being introduced in macOS 10.15 here, but the deployment target is macOS 10.14.0
+warning: netdesk@1.4.6:   192 | IOHIDAccessType IOHIDCheckAccess(IOHIDRequestType requestType)
+warning: netdesk@1.4.6:       |                 ^
+warning: netdesk@1.4.6: src/platform/macos.mm:48:35: note: enclose 'IOHIDCheckAccess' in an @available check to silence this warning
+warning: netdesk@1.4.6:    48 |         IOHIDAccessType theType = IOHIDCheckAccess(kIOHIDRequestTypeListenEvent);
+warning: netdesk@1.4.6:       |                                   ^~~~~~~~~~~~~~~~
+warning: netdesk@1.4.6: src/platform/macos.mm:63:35: warning: 'IOHIDRequestAccess' is only available on macOS 10.15 or newer [-Wunguarded-availability-new]
+warning: netdesk@1.4.6:    63 |                     bool result = IOHIDRequestAccess(kIOHIDRequestTypeListenEvent);
+warning: netdesk@1.4.6:       |                                   ^~~~~~~~~~~~~~~~~~
+warning: netdesk@1.4.6: /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/IOKit.framework/Headers/hidsystem/IOHIDLib.h:213:6: note: 'IOHIDRequestAccess' has been marked as being introduced in macOS 10.15 here, but the deployment target is macOS 10.14.0
+warning: netdesk@1.4.6:   213 | bool IOHIDRequestAccess(IOHIDRequestType requestType)
+warning: netdesk@1.4.6:       |      ^
+warning: netdesk@1.4.6: src/platform/macos.mm:63:35: note: enclose 'IOHIDRequestAccess' in an @available check to silence this warning
+warning: netdesk@1.4.6:    63 |                     bool result = IOHIDRequestAccess(kIOHIDRequestTypeListenEvent);
+warning: netdesk@1.4.6:       |                                   ^~~~~~~~~~~~~~~~~~
+warning: netdesk@1.4.6:    64 |                     NSLog(@"IOHIDRequestAccess result = %d", result);
+warning: netdesk@1.4.6:       |
+warning: netdesk@1.4.6: src/platform/macos.mm:103:18: warning: 'AuthorizationExecuteWithPrivileges' is deprecated: first deprecated in macOS 10.7 [-Wdeprecated-declarations]
+warning: netdesk@1.4.6:   103 |         status = AuthorizationExecuteWithPrivileges(authRef, process, kAuthorizationFlagDefaults, args, &pipe);
+warning: netdesk@1.4.6:       |                  ^
+warning: netdesk@1.4.6: /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/Security.framework/Headers/Authorization.h:427:10: note: 'AuthorizationExecuteWithPrivileges' has been explicitly marked deprecated here
+warning: netdesk@1.4.6:   427 | OSStatus AuthorizationExecuteWithPrivileges(AuthorizationRef authorization,
+warning: netdesk@1.4.6:       |          ^
+warning: netdesk@1.4.6: src/platform/macos.mm:141:30: warning: 'CGDisplayModeCopyPixelEncoding' is deprecated: first deprecated in macOS 10.11 - No longer supported [-Wdeprecated-declarations]
+warning: netdesk@1.4.6:   141 |         CFStringRef pixelEncoding = CGDisplayModeCopyPixelEncoding(mode);
+warning: netdesk@1.4.6:       |                                     ^
+warning: netdesk@1.4.6: /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/CoreGraphics.framework/Headers/CGDirectDisplay.h:177:34: note: 'CGDisplayModeCopyPixelEncoding' has been explicitly marked deprecated here
+warning: netdesk@1.4.6:   177 | CG_EXTERN CFStringRef __nullable CGDisplayModeCopyPixelEncoding(
+warning: netdesk@1.4.6:       |                                  ^
+warning: netdesk@1.4.6: 6 warnings generated.
+   Compiling netdesk v1.4.6 (/Users/talhayigityagiz/ORTAK/AI/Gemini/ServiceNET-NetDesk)
+error[E0583]: file not found for module `bridge_generated`
+  --> src/lib.rs:34:1
+   |
+34 | mod bridge_generated;
+   | ^^^^^^^^^^^^^^^^^^^^^
+   |
+   = help: to create the module `bridge_generated`, create file "src/bridge_generated.rs" or "src/bridge_generated/mod.rs"
+   = note: if there is a `mod bridge_generated` elsewhere in the crate already, import it with `use crate::...` instead
+
+warning: unexpected `cfg` condition value: `cargo-clippy`
+  --> src/platform/macos.rs:98:25
+   |
+98 | ... = msg_send![class!(NSNumber), numberWithBool: value];
+   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |
+   = note: expected values for `feature` are: `cli`, `dasp`, `default`, `flutter`, `flutter_rust_bridge`, `hwcodec`, `inline`, `linux-pkg-config`, `mediacodec`, `plugin_framework`, `rubato`, `samplerate`, `screencapturekit`, `unix-file-copy-paste`, `use_dasp`, `use_rubato`, `use_samplerate`, and `vram`
+   = note: using a cfg inside a macro will use the cfgs from the destination crate and not the ones from the defining crate
+   = help: try referring to `sel_impl` crate for guidance on how handle this unexpected cfg
+   = help: the macro `sel_impl` may come from an old version of the `objc` crate, try updating your dependency with `cargo update -p objc`
+   = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+   = note: `#[warn(unexpected_cfgs)]` on by default
+   = note: this warning originates in the macro `sel_impl` which comes from the expansion of the macro `msg_send` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: unexpected `cfg` condition value: `cargo-clippy`
+  --> src/platform/macos.rs:98:35
+   |
+98 | ...d![class!(NSNumber), n...
+   |       ^^^^^^^^^^^^^^^^
+   |
+   = note: expected values for `feature` are: `cli`, `dasp`, `default`, `flutter`, `flutter_rust_bridge`, `hwcodec`, `inline`, `linux-pkg-config`, `mediacodec`, `plugin_framework`, `rubato`, `samplerate`, `screencapturekit`, `unix-file-copy-paste`, `use_dasp`, `use_rubato`, `use_samplerate`, and `vram`
+   = note: using a cfg inside a macro will use the cfgs from the destination crate and not the ones from the defining crate
+   = help: try referring to `class` crate for guidance on how handle this unexpected cfg
+   = help: the macro `class` may come from an old version of the `objc` crate, try updating your dependency with `cargo update -p objc`
+   = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+   = note: this warning originates in the macro `class` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: unexpected `cfg` condition value: `cargo-clippy`
+   --> src/platform/macos.rs:134:27
+    |
+134 | ... = msg_send![class!(NSNumber), numberWithInteger: our_pid];
+    |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: expected values for `feature` are: `cli`, `dasp`, `default`, `flutter`, `flutter_rust_bridge`, `hwcodec`, `inline`, `linux-pkg-config`, `mediacodec`, `plugin_framework`, `rubato`, `samplerate`, `screencapturekit`, `unix-file-copy-paste`, `use_dasp`, `use_rubato`, `use_samplerate`, and `vram`
+    = note: using a cfg inside a macro will use the cfgs from the destination crate and not the ones from the defining crate
+    = help: try referring to `sel_impl` crate for guidance on how handle this unexpected cfg
+    = help: the macro `sel_impl` may come from an old version of the `objc` crate, try updating your dependency with `cargo update -p objc`
+    = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+    = note: this warning originates in the macro `sel_impl` which comes from the expansion of the macro `msg_send` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: unexpected `cfg` condition value: `cargo-clippy`
+   --> src/platform/macos.rs:134:37
+    |
+134 | ...d![class!(NSNumber), n...
+    |       ^^^^^^^^^^^^^^^^
+    |
+    = note: expected values for `feature` are: `cli`, `dasp`, `default`, `flutter`, `flutter_rust_bridge`, `hwcodec`, `inline`, `linux-pkg-config`, `mediacodec`, `plugin_framework`, `rubato`, `samplerate`, `screencapturekit`, `unix-file-copy-paste`, `use_dasp`, `use_rubato`, `use_samplerate`, and `vram`
+    = note: using a cfg inside a macro will use the cfgs from the destination crate and not the ones from the defining crate
+    = help: try referring to `class` crate for guidance on how handle this unexpected cfg
+    = help: the macro `class` may come from an old version of the `objc` crate, try updating your dependency with `cargo update -p objc`
+    = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+    = note: this warning originates in the macro `class` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: unexpected `cfg` condition value: `cargo-clippy`
+   --> src/platform/macos.rs:141:28
+    |
+141 | ... = msg_send![w, valueForKey: kCGWindowName as id];
+    |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: expected values for `feature` are: `cli`, `dasp`, `default`, `flutter`, `flutter_rust_bridge`, `hwcodec`, `inline`, `linux-pkg-config`, `mediacodec`, `plugin_framework`, `rubato`, `samplerate`, `screencapturekit`, `unix-file-copy-paste`, `use_dasp`, `use_rubato`, `use_samplerate`, and `vram`
+    = note: using a cfg inside a macro will use the cfgs from the destination crate and not the ones from the defining crate
+    = help: try referring to `sel_impl` crate for guidance on how handle this unexpected cfg
+    = help: the macro `sel_impl` may come from an old version of the `objc` crate, try updating your dependency with `cargo update -p objc`
+    = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+    = note: this warning originates in the macro `sel_impl` which comes from the expansion of the macro `msg_send` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: unexpected `cfg` condition value: `cargo-clippy`
+   --> src/platform/macos.rs:145:27
+    |
+145 | ... = msg_send![w, valueForKey: kCGWindowOwnerPID as id];
+    |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: expected values for `feature` are: `cli`, `dasp`, `default`, `flutter`, `flutter_rust_bridge`, `hwcodec`, `inline`, `linux-pkg-config`, `mediacodec`, `plugin_framework`, `rubato`, `samplerate`, `screencapturekit`, `unix-file-copy-paste`, `use_dasp`, `use_rubato`, `use_samplerate`, and `vram`
+    = note: using a cfg inside a macro will use the cfgs from the destination crate and not the ones from the defining crate
+    = help: try referring to `sel_impl` crate for guidance on how handle this unexpected cfg
+    = help: the macro `sel_impl` may come from an old version of the `objc` crate, try updating your dependency with `cargo update -p objc`
+    = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+    = note: this warning originates in the macro `sel_impl` which comes from the expansion of the macro `msg_send` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: unexpected `cfg` condition value: `cargo-clippy`
+   --> src/platform/macos.rs:146:31
+    |
+146 | ... = msg_send![pid, isEqual: our_pid];
+    |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: expected values for `feature` are: `cli`, `dasp`, `default`, `flutter`, `flutter_rust_bridge`, `hwcodec`, `inline`, `linux-pkg-config`, `mediacodec`, `plugin_framework`, `rubato`, `samplerate`, `screencapturekit`, `unix-file-copy-paste`, `use_dasp`, `use_rubato`, `use_samplerate`, and `vram`
+    = note: using a cfg inside a macro will use the cfgs from the destination crate and not the ones from the defining crate
+    = help: try referring to `sel_impl` crate for guidance on how handle this unexpected cfg
+    = help: the macro `sel_impl` may come from an old version of the `objc` crate, try updating your dependency with `cargo update -p objc`
+    = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+    = note: this warning originates in the macro `sel_impl` which comes from the expansion of the macro `msg_send` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: unexpected `cfg` condition value: `cargo-clippy`
+   --> src/platform/macos.rs:150:28
+    |
+150 | ... = msg_send![pid, intValue];
+    |       ^^^^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: expected values for `feature` are: `cli`, `dasp`, `default`, `flutter`, `flutter_rust_bridge`, `hwcodec`, `inline`, `linux-pkg-config`, `mediacodec`, `plugin_framework`, `rubato`, `samplerate`, `screencapturekit`, `unix-file-copy-paste`, `use_dasp`, `use_rubato`, `use_samplerate`, and `vram`
+    = note: using a cfg inside a macro will use the cfgs from the destination crate and not the ones from the defining crate
+    = help: try referring to `sel_impl` crate for guidance on how handle this unexpected cfg
+    = help: the macro `sel_impl` may come from an old version of the `objc` crate, try updating your dependency with `cargo update -p objc`
+    = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+    = note: this warning originates in the macro `sel_impl` which comes from the expansion of the macro `msg_send` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: unexpected `cfg` condition value: `cargo-clippy`
+   --> src/platform/macos.rs:151:25
+    |
+151 |               let p: id = msg_...
+    |  _________________________^
+152 | |                 class!(NSRun...
+153 | |                 runningAppli...
+154 | |             ];
+    | |_____________^
+    |
+    = note: expected values for `feature` are: `cli`, `dasp`, `default`, `flutter`, `flutter_rust_bridge`, `hwcodec`, `inline`, `linux-pkg-config`, `mediacodec`, `plugin_framework`, `rubato`, `samplerate`, `screencapturekit`, `unix-file-copy-paste`, `use_dasp`, `use_rubato`, `use_samplerate`, and `vram`
+    = note: using a cfg inside a macro will use the cfgs from the destination crate and not the ones from the defining crate
+    = help: try referring to `sel_impl` crate for guidance on how handle this unexpected cfg
+    = help: the macro `sel_impl` may come from an old version of the `objc` crate, try updating your dependency with `cargo update -p objc`
+    = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+    = note: this warning originates in the macro `sel_impl` which comes from the expansion of the macro `msg_send` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: unexpected `cfg` condition value: `cargo-clippy`
+   --> src/platform/macos.rs:152:17
+    |
+152 | ...   class!(NSRunningApplication),
+    |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: expected values for `feature` are: `cli`, `dasp`, `default`, `flutter`, `flutter_rust_bridge`, `hwcodec`, `inline`, `linux-pkg-config`, `mediacodec`, `plugin_framework`, `rubato`, `samplerate`, `screencapturekit`, `unix-file-copy-paste`, `use_dasp`, `use_rubato`, `use_samplerate`, and `vram`
+    = note: using a cfg inside a macro will use the cfgs from the destination crate and not the ones from the defining crate
+    = help: try referring to `class` crate for guidance on how handle this unexpected cfg
+    = help: the macro `class` may come from an old version of the `objc` crate, try updating your dependency with `cargo update -p objc`
+    = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+    = note: this warning originates in the macro `class` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: unexpected `cfg` condition value: `cargo-clippy`
+   --> src/platform/macos.rs:159:27
+    |
+159 | ... = msg_send![p, executableURL];
+    |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: expected values for `feature` are: `cli`, `dasp`, `default`, `flutter`, `flutter_rust_bridge`, `hwcodec`, `inline`, `linux-pkg-config`, `mediacodec`, `plugin_framework`, `rubato`, `samplerate`, `screencapturekit`, `unix-file-copy-paste`, `use_dasp`, `use_rubato`, `use_samplerate`, and `vram`
+    = note: using a cfg inside a macro will use the cfgs from the destination crate and not the ones from the defining crate
+    = help: try referring to `sel_impl` crate for guidance on how handle this unexpected cfg
+    = help: the macro `sel_impl` may come from an old version of the `objc` crate, try updating your dependency with `cargo update -p objc`
+    = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+    = note: this warning originates in the macro `sel_impl` which comes from the expansion of the macro `msg_send` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: unexpected `cfg` condition value: `cargo-clippy`
+   --> src/platform/macos.rs:160:32
+    |
+160 | ... = msg_send![url, lastPathComponent];
+    |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: expected values for `feature` are: `cli`, `dasp`, `default`, `flutter`, `flutter_rust_bridge`, `hwcodec`, `inline`, `linux-pkg-config`, `mediacodec`, `plugin_framework`, `rubato`, `samplerate`, `screencapturekit`, `unix-file-copy-paste`, `use_dasp`, `use_rubato`, `use_samplerate`, and `vram`
+    = note: using a cfg inside a macro will use the cfgs from the destination crate and not the ones from the defining crate
+    = help: try referring to `sel_impl` crate for guidance on how handle this unexpected cfg
+    = help: the macro `sel_impl` may come from an old version of the `objc` crate, try updating your dependency with `cargo update -p objc`
+    = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+    = note: this warning originates in the macro `sel_impl` which comes from the expansion of the macro `msg_send` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: unexpected `cfg` condition value: `cargo-clippy`
+   --> src/platform/macos.rs:164:33
+    |
+164 | ... = msg_send![exe_name, isEqual: dock];
+    |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: expected values for `feature` are: `cli`, `dasp`, `default`, `flutter`, `flutter_rust_bridge`, `hwcodec`, `inline`, `linux-pkg-config`, `mediacodec`, `plugin_framework`, `rubato`, `samplerate`, `screencapturekit`, `unix-file-copy-paste`, `use_dasp`, `use_rubato`, `use_samplerate`, and `vram`
+    = note: using a cfg inside a macro will use the cfgs from the destination crate and not the ones from the defining crate
+    = help: try referring to `sel_impl` crate for guidance on how handle this unexpected cfg
+    = help: the macro `sel_impl` may come from an old version of the `objc` crate, try updating your dependency with `cargo update -p objc`
+    = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+    = note: this warning originates in the macro `sel_impl` which comes from the expansion of the macro `msg_send` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: unexpected `cfg` condition value: `cargo-clippy`
+   --> src/platform/macos.rs:497:31
+    |
+497 | ... = msg_send![class!(NSScreen), mainScreen];
+    |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: expected values for `feature` are: `cli`, `dasp`, `default`, `flutter`, `flutter_rust_bridge`, `hwcodec`, `inline`, `linux-pkg-config`, `mediacodec`, `plugin_framework`, `rubato`, `samplerate`, `screencapturekit`, `unix-file-copy-paste`, `use_dasp`, `use_rubato`, `use_samplerate`, and `vram`
+    = note: using a cfg inside a macro will use the cfgs from the destination crate and not the ones from the defining crate
+    = help: try referring to `sel_impl` crate for guidance on how handle this unexpected cfg
+    = help: the macro `sel_impl` may come from an old version of the `objc` crate, try updating your dependency with `cargo update -p objc`
+    = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+    = note: this warning originates in the macro `sel_impl` which comes from the expansion of the macro `msg_send` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: unexpected `cfg` condition value: `cargo-clippy`
+   --> src/platform/macos.rs:497:41
+    |
+497 | ...d![class!(NSScreen), m...
+    |       ^^^^^^^^^^^^^^^^
+    |
+    = note: expected values for `feature` are: `cli`, `dasp`, `default`, `flutter`, `flutter_rust_bridge`, `hwcodec`, `inline`, `linux-pkg-config`, `mediacodec`, `plugin_framework`, `rubato`, `samplerate`, `screencapturekit`, `unix-file-copy-paste`, `use_dasp`, `use_rubato`, `use_samplerate`, and `vram`
+    = note: using a cfg inside a macro will use the cfgs from the destination crate and not the ones from the defining crate
+    = help: try referring to `class` crate for guidance on how handle this unexpected cfg
+    = help: the macro `class` may come from an old version of the `objc` crate, try updating your dependency with `cargo update -p objc`
+    = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+    = note: this warning originates in the macro `class` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: unexpected `cfg` condition value: `cargo-clippy`
+   --> src/platform/macos.rs:498:26
+    |
+498 | ... = msg_send![main_screen, deviceDescription];
+    |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: expected values for `feature` are: `cli`, `dasp`, `default`, `flutter`, `flutter_rust_bridge`, `hwcodec`, `inline`, `linux-pkg-config`, `mediacodec`, `plugin_framework`, `rubato`, `samplerate`, `screencapturekit`, `unix-file-copy-paste`, `use_dasp`, `use_rubato`, `use_samplerate`, and `vram`
+    = note: using a cfg inside a macro will use the cfgs from the destination crate and not the ones from the defining crate
+    = help: try referring to `sel_impl` crate for guidance on how handle this unexpected cfg
+    = help: the macro `sel_impl` may come from an old version of the `objc` crate, try updating your dependency with `cargo update -p objc`
+    = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+    = note: this warning originates in the macro `sel_impl` which comes from the expansion of the macro `msg_send` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: unexpected `cfg` condition value: `cargo-clippy`
+   --> src/platform/macos.rs:500:13
+    |
+500 | ...   msg_se...ber")];
+    |       ^^^^^^...^^^^^^
+    |
+    = note: expected values for `feature` are: `cli`, `dasp`, `default`, `flutter`, `flutter_rust_bridge`, `hwcodec`, `inline`, `linux-pkg-config`, `mediacodec`, `plugin_framework`, `rubato`, `samplerate`, `screencapturekit`, `unix-file-copy-paste`, `use_dasp`, `use_rubato`, `use_samplerate`, and `vram`
+    = note: using a cfg inside a macro will use the cfgs from the destination crate and not the ones from the defining crate
+    = help: try referring to `sel_impl` crate for guidance on how handle this unexpected cfg
+    = help: the macro `sel_impl` may come from an old version of the `objc` crate, try updating your dependency with `cargo update -p objc`
+    = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+    = note: this warning originates in the macro `sel_impl` which comes from the expansion of the macro `msg_send` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: unexpected `cfg` condition value: `cargo-clippy`
+   --> src/platform/macos.rs:501:33
+    |
+501 | ... = msg_send![id, unsignedIntValue];
+    |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: expected values for `feature` are: `cli`, `dasp`, `default`, `flutter`, `flutter_rust_bridge`, `hwcodec`, `inline`, `linux-pkg-config`, `mediacodec`, `plugin_framework`, `rubato`, `samplerate`, `screencapturekit`, `unix-file-copy-paste`, `use_dasp`, `use_rubato`, `use_samplerate`, and `vram`
+    = note: using a cfg inside a macro will use the cfgs from the destination crate and not the ones from the defining crate
+    = help: try referring to `sel_impl` crate for guidance on how handle this unexpected cfg
+    = help: the macro `sel_impl` may come from an old version of the `objc` crate, try updating your dependency with `cargo update -p objc`
+    = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+    = note: this warning originates in the macro `sel_impl` which comes from the expansion of the macro `msg_send` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: unexpected `cfg` condition value: `cargo-clippy`
+   --> src/platform/macos.rs:533:21
+    |
+533 | ... = msg_send![class!(NSCursor), currentSystemCursor];
+    |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: expected values for `feature` are: `cli`, `dasp`, `default`, `flutter`, `flutter_rust_bridge`, `hwcodec`, `inline`, `linux-pkg-config`, `mediacodec`, `plugin_framework`, `rubato`, `samplerate`, `screencapturekit`, `unix-file-copy-paste`, `use_dasp`, `use_rubato`, `use_samplerate`, and `vram`
+    = note: using a cfg inside a macro will use the cfgs from the destination crate and not the ones from the defining crate
+    = help: try referring to `sel_impl` crate for guidance on how handle this unexpected cfg
+    = help: the macro `sel_impl` may come from an old version of the `objc` crate, try updating your dependency with `cargo update -p objc`
+    = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+    = note: this warning originates in the macro `sel_impl` which comes from the expansion of the macro `msg_send` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: unexpected `cfg` condition value: `cargo-clippy`
+   --> src/platform/macos.rs:533:31
+    |
+533 | ...d![class!(NSCursor), c...
+    |       ^^^^^^^^^^^^^^^^
+    |
+    = note: expected values for `feature` are: `cli`, `dasp`, `default`, `flutter`, `flutter_rust_bridge`, `hwcodec`, `inline`, `linux-pkg-config`, `mediacodec`, `plugin_framework`, `rubato`, `samplerate`, `screencapturekit`, `unix-file-copy-paste`, `use_dasp`, `use_rubato`, `use_samplerate`, and `vram`
+    = note: using a cfg inside a macro will use the cfgs from the destination crate and not the ones from the defining crate
+    = help: try referring to `class` crate for guidance on how handle this unexpected cfg
+    = help: the macro `class` may come from an old version of the `objc` crate, try updating your dependency with `cargo update -p objc`
+    = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+    = note: this warning originates in the macro `class` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: unexpected `cfg` condition value: `cargo-clippy`
+   --> src/platform/macos.rs:537:32
+    |
+537 | ... = msg_send![c, hotSpot];
+    |       ^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: expected values for `feature` are: `cli`, `dasp`, `default`, `flutter`, `flutter_rust_bridge`, `hwcodec`, `inline`, `linux-pkg-config`, `mediacodec`, `plugin_framework`, `rubato`, `samplerate`, `screencapturekit`, `unix-file-copy-paste`, `use_dasp`, `use_rubato`, `use_samplerate`, and `vram`
+    = note: using a cfg inside a macro will use the cfgs from the destination crate and not the ones from the defining crate
+    = help: try referring to `sel_impl` crate for guidance on how handle this unexpected cfg
+    = help: the macro `sel_impl` may come from an old version of the `objc` crate, try updating your dependency with `cargo update -p objc`
+    = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+    = note: this warning originates in the macro `sel_impl` which comes from the expansion of the macro `msg_send` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: unexpected `cfg` condition value: `cargo-clippy`
+   --> src/platform/macos.rs:538:23
+    |
+538 | ... = msg_send![c, image];
+    |       ^^^^^^^^^^^^^^^^^^^
+    |
+    = note: expected values for `feature` are: `cli`, `dasp`, `default`, `flutter`, `flutter_rust_bridge`, `hwcodec`, `inline`, `linux-pkg-config`, `mediacodec`, `plugin_framework`, `rubato`, `samplerate`, `screencapturekit`, `unix-file-copy-paste`, `use_dasp`, `use_rubato`, `use_samplerate`, and `vram`
+    = note: using a cfg inside a macro will use the cfgs from the destination crate and not the ones from the defining crate
+    = help: try referring to `sel_impl` crate for guidance on how handle this unexpected cfg
+    = help: the macro `sel_impl` may come from an old version of the `objc` crate, try updating your dependency with `cargo update -p objc`
+    = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+    = note: this warning originates in the macro `sel_impl` which comes from the expansion of the macro `msg_send` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: unexpected `cfg` condition value: `cargo-clippy`
+   --> src/platform/macos.rs:542:28
+    |
+542 | ... = msg_send![img, size];
+    |       ^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: expected values for `feature` are: `cli`, `dasp`, `default`, `flutter`, `flutter_rust_bridge`, `hwcodec`, `inline`, `linux-pkg-config`, `mediacodec`, `plugin_framework`, `rubato`, `samplerate`, `screencapturekit`, `unix-file-copy-paste`, `use_dasp`, `use_rubato`, `use_samplerate`, and `vram`
+    = note: using a cfg inside a macro will use the cfgs from the destination crate and not the ones from the defining crate
+    = help: try referring to `sel_impl` crate for guidance on how handle this unexpected cfg
+    = help: the macro `sel_impl` may come from an old version of the `objc` crate, try updating your dependency with `cargo update -p objc`
+    = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+    = note: this warning originates in the macro `sel_impl` which comes from the expansion of the macro `msg_send` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: unexpected `cfg` condition value: `cargo-clippy`
+   --> src/platform/macos.rs:543:23
+    |
+543 | ... = msg_send![img, TIFFRepresentation];
+    |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: expected values for `feature` are: `cli`, `dasp`, `default`, `flutter`, `flutter_rust_bridge`, `hwcodec`, `inline`, `linux-pkg-config`, `mediacodec`, `plugin_framework`, `rubato`, `samplerate`, `screencapturekit`, `unix-file-copy-paste`, `use_dasp`, `use_rubato`, `use_samplerate`, and `vram`
+    = note: using a cfg inside a macro will use the cfgs from the destination crate and not the ones from the defining crate
+    = help: try referring to `sel_impl` crate for guidance on how handle this unexpected cfg
+    = help: the macro `sel_impl` may come from an old version of the `objc` crate, try updating your dependency with `cargo update -p objc`
+    = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+    = note: this warning originates in the macro `sel_impl` which comes from the expansion of the macro `msg_send` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: unexpected `cfg` condition value: `cargo-clippy`
+   --> src/platform/macos.rs:547:23
+    |
+547 | ... = msg_send![class!(NSBitmapImageRep), imageRepWithData: tif];
+    |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: expected values for `feature` are: `cli`, `dasp`, `default`, `flutter`, `flutter_rust_bridge`, `hwcodec`, `inline`, `linux-pkg-config`, `mediacodec`, `plugin_framework`, `rubato`, `samplerate`, `screencapturekit`, `unix-file-copy-paste`, `use_dasp`, `use_rubato`, `use_samplerate`, and `vram`
+    = note: using a cfg inside a macro will use the cfgs from the destination crate and not the ones from the defining crate
+    = help: try referring to `sel_impl` crate for guidance on how handle this unexpected cfg
+    = help: the macro `sel_impl` may come from an old version of the `objc` crate, try updating your dependency with `cargo update -p objc`
+    = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+    = note: this warning originates in the macro `sel_impl` which comes from the expansion of the macro `msg_send` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: unexpected `cfg` condition value: `cargo-clippy`
+   --> src/platform/macos.rs:547:33
+    |
+547 | ...d![class!(NSBitmapImageRep), i...
+    |       ^^^^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: expected values for `feature` are: `cli`, `dasp`, `default`, `flutter`, `flutter_rust_bridge`, `hwcodec`, `inline`, `linux-pkg-config`, `mediacodec`, `plugin_framework`, `rubato`, `samplerate`, `screencapturekit`, `unix-file-copy-paste`, `use_dasp`, `use_rubato`, `use_samplerate`, and `vram`
+    = note: using a cfg inside a macro will use the cfgs from the destination crate and not the ones from the defining crate
+    = help: try referring to `class` crate for guidance on how handle this unexpected cfg
+    = help: the macro `class` may come from an old version of the `objc` crate, try updating your dependency with `cargo update -p objc`
+    = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+    = note: this warning originates in the macro `class` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: unexpected `cfg` condition value: `cargo-clippy`
+   --> src/platform/macos.rs:551:32
+    |
+551 | ... = msg_send![rep, size];
+    |       ^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: expected values for `feature` are: `cli`, `dasp`, `default`, `flutter`, `flutter_rust_bridge`, `hwcodec`, `inline`, `linux-pkg-config`, `mediacodec`, `plugin_framework`, `rubato`, `samplerate`, `screencapturekit`, `unix-file-copy-paste`, `use_dasp`, `use_rubato`, `use_samplerate`, and `vram`
+    = note: using a cfg inside a macro will use the cfgs from the destination crate and not the ones from the defining crate
+    = help: try referring to `sel_impl` crate for guidance on how handle this unexpected cfg
+    = help: the macro `sel_impl` may come from an old version of the `objc` crate, try updating your dependency with `cargo update -p objc`
+    = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+    = note: this warning originates in the macro `sel_impl` which comes from the expansion of the macro `msg_send` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: unexpected `cfg` condition value: `cargo-clippy`
+   --> src/platform/macos.rs:565:29
+    |
+565 | ... = msg_send![rep, colorAtX:x2 y:y2];
+    |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: expected values for `feature` are: `cli`, `dasp`, `default`, `flutter`, `flutter_rust_bridge`, `hwcodec`, `inline`, `linux-pkg-config`, `mediacodec`, `plugin_framework`, `rubato`, `samplerate`, `screencapturekit`, `unix-file-copy-paste`, `use_dasp`, `use_rubato`, `use_samplerate`, and `vram`
+    = note: using a cfg inside a macro will use the cfgs from the destination crate and not the ones from the defining crate
+    = help: try referring to `sel_impl` crate for guidance on how handle this unexpected cfg
+    = help: the macro `sel_impl` may come from an old version of the `objc` crate, try updating your dependency with `cargo update -p objc`
+    = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+    = note: this warning originates in the macro `sel_impl` which comes from the expansion of the macro `msg_send` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: unexpected `cfg` condition value: `cargo-clippy`
+   --> src/platform/macos.rs:567:30
+    |
+567 | ... = msg_send![color, redComponent];
+    |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: expected values for `feature` are: `cli`, `dasp`, `default`, `flutter`, `flutter_rust_bridge`, `hwcodec`, `inline`, `linux-pkg-config`, `mediacodec`, `plugin_framework`, `rubato`, `samplerate`, `screencapturekit`, `unix-file-copy-paste`, `use_dasp`, `use_rubato`, `use_samplerate`, and `vram`
+    = note: using a cfg inside a macro will use the cfgs from the destination crate and not the ones from the defining crate
+    = help: try referring to `sel_impl` crate for guidance on how handle this unexpected cfg
+    = help: the macro `sel_impl` may come from an old version of the `objc` crate, try updating your dependency with `cargo update -p objc`
+    = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+    = note: this warning originates in the macro `sel_impl` which comes from the expansion of the macro `msg_send` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: unexpected `cfg` condition value: `cargo-clippy`
+   --> src/platform/macos.rs:568:30
+    |
+568 | ... = msg_send![color, greenComponent];
+    |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: expected values for `feature` are: `cli`, `dasp`, `default`, `flutter`, `flutter_rust_bridge`, `hwcodec`, `inline`, `linux-pkg-config`, `mediacodec`, `plugin_framework`, `rubato`, `samplerate`, `screencapturekit`, `unix-file-copy-paste`, `use_dasp`, `use_rubato`, `use_samplerate`, and `vram`
+    = note: using a cfg inside a macro will use the cfgs from the destination crate and not the ones from the defining crate
+    = help: try referring to `sel_impl` crate for guidance on how handle this unexpected cfg
+    = help: the macro `sel_impl` may come from an old version of the `objc` crate, try updating your dependency with `cargo update -p objc`
+    = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+    = note: this warning originates in the macro `sel_impl` which comes from the expansion of the macro `msg_send` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: unexpected `cfg` condition value: `cargo-clippy`
+   --> src/platform/macos.rs:569:30
+    |
+569 | ... = msg_send![color, blueComponent];
+    |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: expected values for `feature` are: `cli`, `dasp`, `default`, `flutter`, `flutter_rust_bridge`, `hwcodec`, `inline`, `linux-pkg-config`, `mediacodec`, `plugin_framework`, `rubato`, `samplerate`, `screencapturekit`, `unix-file-copy-paste`, `use_dasp`, `use_rubato`, `use_samplerate`, and `vram`
+    = note: using a cfg inside a macro will use the cfgs from the destination crate and not the ones from the defining crate
+    = help: try referring to `sel_impl` crate for guidance on how handle this unexpected cfg
+    = help: the macro `sel_impl` may come from an old version of the `objc` crate, try updating your dependency with `cargo update -p objc`
+    = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+    = note: this warning originates in the macro `sel_impl` which comes from the expansion of the macro `msg_send` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: unexpected `cfg` condition value: `cargo-clippy`
+   --> src/platform/macos.rs:570:30
+    |
+570 | ... = msg_send![color, alphaComponent];
+    |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: expected values for `feature` are: `cli`, `dasp`, `default`, `flutter`, `flutter_rust_bridge`, `hwcodec`, `inline`, `linux-pkg-config`, `mediacodec`, `plugin_framework`, `rubato`, `samplerate`, `screencapturekit`, `unix-file-copy-paste`, `use_dasp`, `use_rubato`, `use_samplerate`, and `vram`
+    = note: using a cfg inside a macro will use the cfgs from the destination crate and not the ones from the defining crate
+    = help: try referring to `sel_impl` crate for guidance on how handle this unexpected cfg
+    = help: the macro `sel_impl` may come from an old version of the `objc` crate, try updating your dependency with `cargo update -p objc`
+    = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+    = note: this warning originates in the macro `sel_impl` which comes from the expansion of the macro `msg_send` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: unexpected `cfg` condition value: `cargo-clippy`
+   --> src/platform/macos.rs:589:32
+    |
+589 | ... = msg_send![c, hotSpot];
+    |       ^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: expected values for `feature` are: `cli`, `dasp`, `default`, `flutter`, `flutter_rust_bridge`, `hwcodec`, `inline`, `linux-pkg-config`, `mediacodec`, `plugin_framework`, `rubato`, `samplerate`, `screencapturekit`, `unix-file-copy-paste`, `use_dasp`, `use_rubato`, `use_samplerate`, and `vram`
+    = note: using a cfg inside a macro will use the cfgs from the destination crate and not the ones from the defining crate
+    = help: try referring to `sel_impl` crate for guidance on how handle this unexpected cfg
+    = help: the macro `sel_impl` may come from an old version of the `objc` crate, try updating your dependency with `cargo update -p objc`
+    = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+    = note: this warning originates in the macro `sel_impl` which comes from the expansion of the macro `msg_send` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: unexpected `cfg` condition value: `cargo-clippy`
+   --> src/platform/macos.rs:590:23
+    |
+590 | ... = msg_send![c, image];
+    |       ^^^^^^^^^^^^^^^^^^^
+    |
+    = note: expected values for `feature` are: `cli`, `dasp`, `default`, `flutter`, `flutter_rust_bridge`, `hwcodec`, `inline`, `linux-pkg-config`, `mediacodec`, `plugin_framework`, `rubato`, `samplerate`, `screencapturekit`, `unix-file-copy-paste`, `use_dasp`, `use_rubato`, `use_samplerate`, and `vram`
+    = note: using a cfg inside a macro will use the cfgs from the destination crate and not the ones from the defining crate
+    = help: try referring to `sel_impl` crate for guidance on how handle this unexpected cfg
+    = help: the macro `sel_impl` may come from an old version of the `objc` crate, try updating your dependency with `cargo update -p objc`
+    = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+    = note: this warning originates in the macro `sel_impl` which comes from the expansion of the macro `msg_send` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: unexpected `cfg` condition value: `cargo-clippy`
+   --> src/platform/macos.rs:591:28
+    |
+591 | ... = msg_send![img, size];
+    |       ^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: expected values for `feature` are: `cli`, `dasp`, `default`, `flutter`, `flutter_rust_bridge`, `hwcodec`, `inline`, `linux-pkg-config`, `mediacodec`, `plugin_framework`, `rubato`, `samplerate`, `screencapturekit`, `unix-file-copy-paste`, `use_dasp`, `use_rubato`, `use_samplerate`, and `vram`
+    = note: using a cfg inside a macro will use the cfgs from the destination crate and not the ones from the defining crate
+    = help: try referring to `sel_impl` crate for guidance on how handle this unexpected cfg
+    = help: the macro `sel_impl` may come from an old version of the `objc` crate, try updating your dependency with `cargo update -p objc`
+    = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+    = note: this warning originates in the macro `sel_impl` which comes from the expansion of the macro `msg_send` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: unexpected `cfg` condition value: `cargo-clippy`
+   --> src/platform/macos.rs:592:24
+    |
+592 | ... = msg_send![img, representations];
+    |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: expected values for `feature` are: `cli`, `dasp`, `default`, `flutter`, `flutter_rust_bridge`, `hwcodec`, `inline`, `linux-pkg-config`, `mediacodec`, `plugin_framework`, `rubato`, `samplerate`, `screencapturekit`, `unix-file-copy-paste`, `use_dasp`, `use_rubato`, `use_samplerate`, and `vram`
+    = note: using a cfg inside a macro will use the cfgs from the destination crate and not the ones from the defining crate
+    = help: try referring to `sel_impl` crate for guidance on how handle this unexpected cfg
+    = help: the macro `sel_impl` may come from an old version of the `objc` crate, try updating your dependency with `cargo update -p objc`
+    = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+    = note: this warning originates in the macro `sel_impl` which comes from the expansion of the macro `msg_send` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: unexpected `cfg` condition value: `cargo-clippy`
+   --> src/platform/macos.rs:596:28
+    |
+596 | ... = msg_send![reps, count];
+    |       ^^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: expected values for `feature` are: `cli`, `dasp`, `default`, `flutter`, `flutter_rust_bridge`, `hwcodec`, `inline`, `linux-pkg-config`, `mediacodec`, `plugin_framework`, `rubato`, `samplerate`, `screencapturekit`, `unix-file-copy-paste`, `use_dasp`, `use_rubato`, `use_samplerate`, and `vram`
+    = note: using a cfg inside a macro will use the cfgs from the destination crate and not the ones from the defining crate
+    = help: try referring to `sel_impl` crate for guidance on how handle this unexpected cfg
+    = help: the macro `sel_impl` may come from an old version of the `objc` crate, try updating your dependency with `cargo update -p objc`
+    = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+    = note: this warning originates in the macro `sel_impl` which comes from the expansion of the macro `msg_send` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: unexpected `cfg` condition value: `cargo-clippy`
+   --> src/platform/macos.rs:600:23
+    |
+600 | ... = msg_send![reps, objectAtIndex: 0];
+    |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: expected values for `feature` are: `cli`, `dasp`, `default`, `flutter`, `flutter_rust_bridge`, `hwcodec`, `inline`, `linux-pkg-config`, `mediacodec`, `plugin_framework`, `rubato`, `samplerate`, `screencapturekit`, `unix-file-copy-paste`, `use_dasp`, `use_rubato`, `use_samplerate`, and `vram`
+    = note: using a cfg inside a macro will use the cfgs from the destination crate and not the ones from the defining crate
+    = help: try referring to `sel_impl` crate for guidance on how handle this unexpected cfg
+    = help: the macro `sel_impl` may come from an old version of the `objc` crate, try updating your dependency with `cargo update -p objc`
+    = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+    = note: this warning originates in the macro `sel_impl` which comes from the expansion of the macro `msg_send` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: unexpected `cfg` condition value: `cargo-clippy`
+   --> src/platform/macos.rs:613:33
+    |
+613 | ... = msg_send![rep, colorAtX:x as cocoa::foundation::NSInteger y:y as cocoa::foundation::NSInteger];
+    |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: expected values for `feature` are: `cli`, `dasp`, `default`, `flutter`, `flutter_rust_bridge`, `hwcodec`, `inline`, `linux-pkg-config`, `mediacodec`, `plugin_framework`, `rubato`, `samplerate`, `screencapturekit`, `unix-file-copy-paste`, `use_dasp`, `use_rubato`, `use_samplerate`, and `vram`
+    = note: using a cfg inside a macro will use the cfgs from the destination crate and not the ones from the defining crate
+    = help: try referring to `sel_impl` crate for guidance on how handle this unexpected cfg
+    = help: the macro `sel_impl` may come from an old version of the `objc` crate, try updating your dependency with `cargo update -p objc`
+    = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+    = note: this warning originates in the macro `sel_impl` which comes from the expansion of the macro `msg_send` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: unexpected `cfg` condition value: `cargo-clippy`
+   --> src/platform/macos.rs:618:30
+    |
+618 | ... = msg_send![color, redComponent];
+    |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: expected values for `feature` are: `cli`, `dasp`, `default`, `flutter`, `flutter_rust_bridge`, `hwcodec`, `inline`, `linux-pkg-config`, `mediacodec`, `plugin_framework`, `rubato`, `samplerate`, `screencapturekit`, `unix-file-copy-paste`, `use_dasp`, `use_rubato`, `use_samplerate`, and `vram`
+    = note: using a cfg inside a macro will use the cfgs from the destination crate and not the ones from the defining crate
+    = help: try referring to `sel_impl` crate for guidance on how handle this unexpected cfg
+    = help: the macro `sel_impl` may come from an old version of the `objc` crate, try updating your dependency with `cargo update -p objc`
+    = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+    = note: this warning originates in the macro `sel_impl` which comes from the expansion of the macro `msg_send` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: unexpected `cfg` condition value: `cargo-clippy`
+   --> src/platform/macos.rs:619:30
+    |
+619 | ... = msg_send![color, greenComponent];
+    |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: expected values for `feature` are: `cli`, `dasp`, `default`, `flutter`, `flutter_rust_bridge`, `hwcodec`, `inline`, `linux-pkg-config`, `mediacodec`, `plugin_framework`, `rubato`, `samplerate`, `screencapturekit`, `unix-file-copy-paste`, `use_dasp`, `use_rubato`, `use_samplerate`, and `vram`
+    = note: using a cfg inside a macro will use the cfgs from the destination crate and not the ones from the defining crate
+    = help: try referring to `sel_impl` crate for guidance on how handle this unexpected cfg
+    = help: the macro `sel_impl` may come from an old version of the `objc` crate, try updating your dependency with `cargo update -p objc`
+    = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+    = note: this warning originates in the macro `sel_impl` which comes from the expansion of the macro `msg_send` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: unexpected `cfg` condition value: `cargo-clippy`
+   --> src/platform/macos.rs:620:30
+    |
+620 | ... = msg_send![color, blueComponent];
+    |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: expected values for `feature` are: `cli`, `dasp`, `default`, `flutter`, `flutter_rust_bridge`, `hwcodec`, `inline`, `linux-pkg-config`, `mediacodec`, `plugin_framework`, `rubato`, `samplerate`, `screencapturekit`, `unix-file-copy-paste`, `use_dasp`, `use_rubato`, `use_samplerate`, and `vram`
+    = note: using a cfg inside a macro will use the cfgs from the destination crate and not the ones from the defining crate
+    = help: try referring to `sel_impl` crate for guidance on how handle this unexpected cfg
+    = help: the macro `sel_impl` may come from an old version of the `objc` crate, try updating your dependency with `cargo update -p objc`
+    = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+    = note: this warning originates in the macro `sel_impl` which comes from the expansion of the macro `msg_send` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: unexpected `cfg` condition value: `cargo-clippy`
+   --> src/platform/macos.rs:621:30
+    |
+621 | ... = msg_send![color, alphaComponent];
+    |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: expected values for `feature` are: `cli`, `dasp`, `default`, `flutter`, `flutter_rust_bridge`, `hwcodec`, `inline`, `linux-pkg-config`, `mediacodec`, `plugin_framework`, `rubato`, `samplerate`, `screencapturekit`, `unix-file-copy-paste`, `use_dasp`, `use_rubato`, `use_samplerate`, and `vram`
+    = note: using a cfg inside a macro will use the cfgs from the destination crate and not the ones from the defining crate
+    = help: try referring to `sel_impl` crate for guidance on how handle this unexpected cfg
+    = help: the macro `sel_impl` may come from an old version of the `objc` crate, try updating your dependency with `cargo update -p objc`
+    = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+    = note: this warning originates in the macro `sel_impl` which comes from the expansion of the macro `msg_send` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: unexpected `cfg` condition value: `cargo-clippy`
+   --> src/platform/macos.rs:816:18
+    |
+816 | ... = msg_send!(NSApp(), terminate: nil);
+    |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: expected values for `feature` are: `cli`, `dasp`, `default`, `flutter`, `flutter_rust_bridge`, `hwcodec`, `inline`, `linux-pkg-config`, `mediacodec`, `plugin_framework`, `rubato`, `samplerate`, `screencapturekit`, `unix-file-copy-paste`, `use_dasp`, `use_rubato`, `use_samplerate`, and `vram`
+    = note: using a cfg inside a macro will use the cfgs from the destination crate and not the ones from the defining crate
+    = help: try referring to `sel_impl` crate for guidance on how handle this unexpected cfg
+    = help: the macro `sel_impl` may come from an old version of the `objc` crate, try updating your dependency with `cargo update -p objc`
+    = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+    = note: this warning originates in the macro `sel_impl` which comes from the expansion of the macro `msg_send` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: unexpected `cfg` condition value: `cargo-clippy`
+    --> src/platform/macos.rs:1210:26
+     |
+1210 | ... = msg_send![class!(NSBundle), mainBundle];
+     |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     |
+     = note: expected values for `feature` are: `cli`, `dasp`, `default`, `flutter`, `flutter_rust_bridge`, `hwcodec`, `inline`, `linux-pkg-config`, `mediacodec`, `plugin_framework`, `rubato`, `samplerate`, `screencapturekit`, `unix-file-copy-paste`, `use_dasp`, `use_rubato`, `use_samplerate`, and `vram`
+     = note: using a cfg inside a macro will use the cfgs from the destination crate and not the ones from the defining crate
+     = help: try referring to `sel_impl` crate for guidance on how handle this unexpected cfg
+     = help: the macro `sel_impl` may come from an old version of the `objc` crate, try updating your dependency with `cargo update -p objc`
+     = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+     = note: this warning originates in the macro `sel_impl` which comes from the expansion of the macro `msg_send` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: unexpected `cfg` condition value: `cargo-clippy`
+    --> src/platform/macos.rs:1210:36
+     |
+1210 | ...d![class!(NSBundle), m...
+     |       ^^^^^^^^^^^^^^^^
+     |
+     = note: expected values for `feature` are: `cli`, `dasp`, `default`, `flutter`, `flutter_rust_bridge`, `hwcodec`, `inline`, `linux-pkg-config`, `mediacodec`, `plugin_framework`, `rubato`, `samplerate`, `screencapturekit`, `unix-file-copy-paste`, `use_dasp`, `use_rubato`, `use_samplerate`, and `vram`
+     = note: using a cfg inside a macro will use the cfgs from the destination crate and not the ones from the defining crate
+     = help: try referring to `class` crate for guidance on how handle this unexpected cfg
+     = help: the macro `class` may come from an old version of the `objc` crate, try updating your dependency with `cargo update -p objc`
+     = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+     = note: this warning originates in the macro `class` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: unexpected `cfg` condition value: `cargo-clippy`
+    --> src/platform/macos.rs:1215:29
+     |
+1215 | ... = msg_send![bundle, bundleIdentifier];
+     |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     |
+     = note: expected values for `feature` are: `cli`, `dasp`, `default`, `flutter`, `flutter_rust_bridge`, `hwcodec`, `inline`, `linux-pkg-config`, `mediacodec`, `plugin_framework`, `rubato`, `samplerate`, `screencapturekit`, `unix-file-copy-paste`, `use_dasp`, `use_rubato`, `use_samplerate`, and `vram`
+     = note: using a cfg inside a macro will use the cfgs from the destination crate and not the ones from the defining crate
+     = help: try referring to `sel_impl` crate for guidance on how handle this unexpected cfg
+     = help: the macro `sel_impl` may come from an old version of the `objc` crate, try updating your dependency with `cargo update -p objc`
+     = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+     = note: this warning originates in the macro `sel_impl` which comes from the expansion of the macro `msg_send` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: unexpected `cfg` condition value: `cargo-clippy`
+    --> src/platform/macos.rs:1220:50
+     |
+1220 | ... = msg_send![bundle_id, UTF8String];
+     |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     |
+     = note: expected values for `feature` are: `cli`, `dasp`, `default`, `flutter`, `flutter_rust_bridge`, `hwcodec`, `inline`, `linux-pkg-config`, `mediacodec`, `plugin_framework`, `rubato`, `samplerate`, `screencapturekit`, `unix-file-copy-paste`, `use_dasp`, `use_rubato`, `use_samplerate`, and `vram`
+     = note: using a cfg inside a macro will use the cfgs from the destination crate and not the ones from the defining crate
+     = help: try referring to `sel_impl` crate for guidance on how handle this unexpected cfg
+     = help: the macro `sel_impl` may come from an old version of the `objc` crate, try updating your dependency with `cargo update -p objc`
+     = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+     = note: this warning originates in the macro `sel_impl` which comes from the expansion of the macro `msg_send` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: unexpected `cfg` condition value: `cargo-clippy`
+  --> src/platform/delegate.rs:41:26
+   |
+41 | ... = msg_send!(NSApp(), terminate: nil);
+   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |
+   = note: expected values for `feature` are: `cli`, `dasp`, `default`, `flutter`, `flutter_rust_bridge`, `hwcodec`, `inline`, `linux-pkg-config`, `mediacodec`, `plugin_framework`, `rubato`, `samplerate`, `screencapturekit`, `unix-file-copy-paste`, `use_dasp`, `use_rubato`, `use_samplerate`, and `vram`
+   = note: using a cfg inside a macro will use the cfgs from the destination crate and not the ones from the defining crate
+   = help: try referring to `sel_impl` crate for guidance on how handle this unexpected cfg
+   = help: the macro `sel_impl` may come from an old version of the `objc` crate, try updating your dependency with `cargo update -p objc`
+   = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+   = note: this warning originates in the macro `sel_impl` which comes from the expansion of the macro `msg_send` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: unexpected `cfg` condition value: `cargo-clippy`
+  --> src/platform/delegate.rs:67:56
+   |
+67 | ...", class!(NSObject)) e...
+   |       ^^^^^^^^^^^^^^^^
+   |
+   = note: expected values for `feature` are: `cli`, `dasp`, `default`, `flutter`, `flutter_rust_bridge`, `hwcodec`, `inline`, `linux-pkg-config`, `mediacodec`, `plugin_framework`, `rubato`, `samplerate`, `screencapturekit`, `unix-file-copy-paste`, `use_dasp`, `use_rubato`, `use_samplerate`, and `vram`
+   = note: using a cfg inside a macro will use the cfgs from the destination crate and not the ones from the defining crate
+   = help: try referring to `class` crate for guidance on how handle this unexpected cfg
+   = help: the macro `class` may come from an old version of the `objc` crate, try updating your dependency with `cargo update -p objc`
+   = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+   = note: this warning originates in the macro `class` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: unexpected `cfg` condition value: `cargo-clippy`
+  --> src/platform/delegate.rs:74:9
+   |
+74 | ...   sel!(applicationDidFinishLaunching:),
+   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |
+   = note: expected values for `feature` are: `cli`, `dasp`, `default`, `flutter`, `flutter_rust_bridge`, `hwcodec`, `inline`, `linux-pkg-config`, `mediacodec`, `plugin_framework`, `rubato`, `samplerate`, `screencapturekit`, `unix-file-copy-paste`, `use_dasp`, `use_rubato`, `use_samplerate`, and `vram`
+   = note: using a cfg inside a macro will use the cfgs from the destination crate and not the ones from the defining crate
+   = help: try referring to `sel_impl` crate for guidance on how handle this unexpected cfg
+   = help: the macro `sel_impl` may come from an old version of the `objc` crate, try updating your dependency with `cargo update -p objc`
+   = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+   = note: this warning originates in the macro `sel_impl` which comes from the expansion of the macro `sel` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: unexpected `cfg` condition value: `cargo-clippy`
+  --> src/platform/delegate.rs:79:9
+   |
+79 | ...   sel...ledFile:),
+   |       ^^^...^^^^^^^^^
+   |
+   = note: expected values for `feature` are: `cli`, `dasp`, `default`, `flutter`, `flutter_rust_bridge`, `hwcodec`, `inline`, `linux-pkg-config`, `mediacodec`, `plugin_framework`, `rubato`, `samplerate`, `screencapturekit`, `unix-file-copy-paste`, `use_dasp`, `use_rubato`, `use_samplerate`, and `vram`
+   = note: using a cfg inside a macro will use the cfgs from the destination crate and not the ones from the defining crate
+   = help: try referring to `sel_impl` crate for guidance on how handle this unexpected cfg
+   = help: the macro `sel_impl` may come from an old version of the `objc` crate, try updating your dependency with `cargo update -p objc`
+   = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+   = note: this warning originates in the macro `sel_impl` which comes from the expansion of the macro `sel` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: unexpected `cfg` condition value: `cargo-clippy`
+  --> src/platform/delegate.rs:84:9
+   |
+84 | ...   sel!(applicationDidBecomeActive:),
+   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |
+   = note: expected values for `feature` are: `cli`, `dasp`, `default`, `flutter`, `flutter_rust_bridge`, `hwcodec`, `inline`, `linux-pkg-config`, `mediacodec`, `plugin_framework`, `rubato`, `samplerate`, `screencapturekit`, `unix-file-copy-paste`, `use_dasp`, `use_rubato`, `use_samplerate`, and `vram`
+   = note: using a cfg inside a macro will use the cfgs from the destination crate and not the ones from the defining crate
+   = help: try referring to `sel_impl` crate for guidance on how handle this unexpected cfg
+   = help: the macro `sel_impl` may come from an old version of the `objc` crate, try updating your dependency with `cargo update -p objc`
+   = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+   = note: this warning originates in the macro `sel_impl` which comes from the expansion of the macro `sel` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: unexpected `cfg` condition value: `cargo-clippy`
+  --> src/platform/delegate.rs:89:9
+   |
+89 | ...   sel!(applicationDidUnhide:),
+   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |
+   = note: expected values for `feature` are: `cli`, `dasp`, `default`, `flutter`, `flutter_rust_bridge`, `hwcodec`, `inline`, `linux-pkg-config`, `mediacodec`, `plugin_framework`, `rubato`, `samplerate`, `screencapturekit`, `unix-file-copy-paste`, `use_dasp`, `use_rubato`, `use_samplerate`, and `vram`
+   = note: using a cfg inside a macro will use the cfgs from the destination crate and not the ones from the defining crate
+   = help: try referring to `sel_impl` crate for guidance on how handle this unexpected cfg
+   = help: the macro `sel_impl` may come from an old version of the `objc` crate, try updating your dependency with `cargo update -p objc`
+   = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+   = note: this warning originates in the macro `sel_impl` which comes from the expansion of the macro `sel` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: unexpected `cfg` condition value: `cargo-clippy`
+  --> src/platform/delegate.rs:94:9
+   |
+94 | ...   sel!(applicationShouldHandleReopen:),
+   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |
+   = note: expected values for `feature` are: `cli`, `dasp`, `default`, `flutter`, `flutter_rust_bridge`, `hwcodec`, `inline`, `linux-pkg-config`, `mediacodec`, `plugin_framework`, `rubato`, `samplerate`, `screencapturekit`, `unix-file-copy-paste`, `use_dasp`, `use_rubato`, `use_samplerate`, and `vram`
+   = note: using a cfg inside a macro will use the cfgs from the destination crate and not the ones from the defining crate
+   = help: try referring to `sel_impl` crate for guidance on how handle this unexpected cfg
+   = help: the macro `sel_impl` may come from an old version of the `objc` crate, try updating your dependency with `cargo update -p objc`
+   = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+   = note: this warning originates in the macro `sel_impl` which comes from the expansion of the macro `sel` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: unexpected `cfg` condition value: `cargo-clippy`
+  --> src/platform/delegate.rs:99:9
+   |
+99 | ...   sel!(applicationWillTerminate:),
+   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |
+   = note: expected values for `feature` are: `cli`, `dasp`, `default`, `flutter`, `flutter_rust_bridge`, `hwcodec`, `inline`, `linux-pkg-config`, `mediacodec`, `plugin_framework`, `rubato`, `samplerate`, `screencapturekit`, `unix-file-copy-paste`, `use_dasp`, `use_rubato`, `use_samplerate`, and `vram`
+   = note: using a cfg inside a macro will use the cfgs from the destination crate and not the ones from the defining crate
+   = help: try referring to `sel_impl` crate for guidance on how handle this unexpected cfg
+   = help: the macro `sel_impl` may come from an old version of the `objc` crate, try updating your dependency with `cargo update -p objc`
+   = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+   = note: this warning originates in the macro `sel_impl` which comes from the expansion of the macro `sel` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: unexpected `cfg` condition value: `cargo-clippy`
+   --> src/platform/delegate.rs:104:9
+    |
+104 | ...   sel!(handleMenuItem:),
+    |       ^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: expected values for `feature` are: `cli`, `dasp`, `default`, `flutter`, `flutter_rust_bridge`, `hwcodec`, `inline`, `linux-pkg-config`, `mediacodec`, `plugin_framework`, `rubato`, `samplerate`, `screencapturekit`, `unix-file-copy-paste`, `use_dasp`, `use_rubato`, `use_samplerate`, and `vram`
+    = note: using a cfg inside a macro will use the cfgs from the destination crate and not the ones from the defining crate
+    = help: try referring to `sel_impl` crate for guidance on how handle this unexpected cfg
+    = help: the macro `sel_impl` may come from an old version of the `objc` crate, try updating your dependency with `cargo update -p objc`
+    = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+    = note: this warning originates in the macro `sel_impl` which comes from the expansion of the macro `sel` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: unexpected `cfg` condition value: `cargo-clippy`
+   --> src/platform/delegate.rs:108:9
+    |
+108 | ...   sel!(application:openURLs:),
+    |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: expected values for `feature` are: `cli`, `dasp`, `default`, `flutter`, `flutter_rust_bridge`, `hwcodec`, `inline`, `linux-pkg-config`, `mediacodec`, `plugin_framework`, `rubato`, `samplerate`, `screencapturekit`, `unix-file-copy-paste`, `use_dasp`, `use_rubato`, `use_samplerate`, and `vram`
+    = note: using a cfg inside a macro will use the cfgs from the destination crate and not the ones from the defining crate
+    = help: try referring to `sel_impl` crate for guidance on how handle this unexpected cfg
+    = help: the macro `sel_impl` may come from an old version of the `objc` crate, try updating your dependency with `cargo update -p objc`
+    = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+    = note: this warning originates in the macro `sel_impl` which comes from the expansion of the macro `sel` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: unexpected `cfg` condition value: `cargo-clippy`
+   --> src/platform/delegate.rs:112:24
+    |
+112 | ... = msg_send![decl, alloc];
+    |       ^^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: expected values for `feature` are: `cli`, `dasp`, `default`, `flutter`, `flutter_rust_bridge`, `hwcodec`, `inline`, `linux-pkg-config`, `mediacodec`, `plugin_framework`, `rubato`, `samplerate`, `screencapturekit`, `unix-file-copy-paste`, `use_dasp`, `use_rubato`, `use_samplerate`, and `vram`
+    = note: using a cfg inside a macro will use the cfgs from the destination crate and not the ones from the defining crate
+    = help: try referring to `sel_impl` crate for guidance on how handle this unexpected cfg
+    = help: the macro `sel_impl` may come from an old version of the `objc` crate, try updating your dependency with `cargo update -p objc`
+    = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+    = note: this warning originates in the macro `sel_impl` which comes from the expansion of the macro `msg_send` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: unexpected `cfg` condition value: `cargo-clippy`
+   --> src/platform/delegate.rs:113:14
+    |
+113 | ... = msg_send![delegate, init];
+    |       ^^^^^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: expected values for `feature` are: `cli`, `dasp`, `default`, `flutter`, `flutter_rust_bridge`, `hwcodec`, `inline`, `linux-pkg-config`, `mediacodec`, `plugin_framework`, `rubato`, `samplerate`, `screencapturekit`, `unix-file-copy-paste`, `use_dasp`, `use_rubato`, `use_samplerate`, and `vram`
+    = note: using a cfg inside a macro will use the cfgs from the destination crate and not the ones from the defining crate
+    = help: try referring to `sel_impl` crate for guidance on how handle this unexpected cfg
+    = help: the macro `sel_impl` may come from an old version of the `objc` crate, try updating your dependency with `cargo update -p objc`
+    = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+    = note: this warning originates in the macro `sel_impl` which comes from the expansion of the macro `msg_send` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: unexpected `cfg` condition value: `cargo-clippy`
+   --> src/platform/delegate.rs:122:32
+    |
+122 | ... = msg_send![cls, sharedAppleEventManager];
+    |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: expected values for `feature` are: `cli`, `dasp`, `default`, `flutter`, `flutter_rust_bridge`, `hwcodec`, `inline`, `linux-pkg-config`, `mediacodec`, `plugin_framework`, `rubato`, `samplerate`, `screencapturekit`, `unix-file-copy-paste`, `use_dasp`, `use_rubato`, `use_samplerate`, and `vram`
+    = note: using a cfg inside a macro will use the cfgs from the destination crate and not the ones from the defining crate
+    = help: try referring to `sel_impl` crate for guidance on how handle this unexpected cfg
+    = help: the macro `sel_impl` may come from an old version of the `objc` crate, try updating your dependency with `cargo update -p objc`
+    = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+    = note: this warning originates in the macro `sel_impl` which comes from the expansion of the macro `msg_send` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: unexpected `cfg` condition value: `cargo-clippy`
+   --> src/platform/delegate.rs:123:17
+    |
+123 |       let _: () = msg_send![manager,
+    |  _________________^
+124 | |                               setEventHandler: delegate
+125 | |                               andSelector: sel!(handleEvent:withRepl...
+126 | |                               forEventClass: fruitbasket::kInternetE...
+127 | |                               andEventID: fruitbasket::kAEGetURL];
+    | |_________________________________________________________________^
+    |
+    = note: expected values for `feature` are: `cli`, `dasp`, `default`, `flutter`, `flutter_rust_bridge`, `hwcodec`, `inline`, `linux-pkg-config`, `mediacodec`, `plugin_framework`, `rubato`, `samplerate`, `screencapturekit`, `unix-file-copy-paste`, `use_dasp`, `use_rubato`, `use_samplerate`, and `vram`
+    = note: using a cfg inside a macro will use the cfgs from the destination crate and not the ones from the defining crate
+    = help: try referring to `sel_impl` crate for guidance on how handle this unexpected cfg
+    = help: the macro `sel_impl` may come from an old version of the `objc` crate, try updating your dependency with `cargo update -p objc`
+    = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+    = note: this warning originates in the macro `sel_impl` which comes from the expansion of the macro `msg_send` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: unexpected `cfg` condition value: `cargo-clippy`
+   --> src/platform/delegate.rs:125:44
+    |
+125 | ...r: sel!(handleEvent:withReplyEvent:)
+    |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: expected values for `feature` are: `cli`, `dasp`, `default`, `flutter`, `flutter_rust_bridge`, `hwcodec`, `inline`, `linux-pkg-config`, `mediacodec`, `plugin_framework`, `rubato`, `samplerate`, `screencapturekit`, `unix-file-copy-paste`, `use_dasp`, `use_rubato`, `use_samplerate`, and `vram`
+    = note: using a cfg inside a macro will use the cfgs from the destination crate and not the ones from the defining crate
+    = help: try referring to `sel_impl` crate for guidance on how handle this unexpected cfg
+    = help: the macro `sel_impl` may come from an old version of the `objc` crate, try updating your dependency with `cargo update -p objc`
+    = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+    = note: this warning originates in the macro `sel_impl` which comes from the expansion of the macro `sel` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: unexpected `cfg` condition value: `cargo-clippy`
+   --> src/platform/delegate.rs:128:14
+    |
+128 | ... = msg_sen...gate];
+    |       ^^^^^^^...^^^^^
+    |
+    = note: expected values for `feature` are: `cli`, `dasp`, `default`, `flutter`, `flutter_rust_bridge`, `hwcodec`, `inline`, `linux-pkg-config`, `mediacodec`, `plugin_framework`, `rubato`, `samplerate`, `screencapturekit`, `unix-file-copy-paste`, `use_dasp`, `use_rubato`, `use_samplerate`, and `vram`
+    = note: using a cfg inside a macro will use the cfgs from the destination crate and not the ones from the defining crate
+    = help: try referring to `sel_impl` crate for guidance on how handle this unexpected cfg
+    = help: the macro `sel_impl` may come from an old version of the `objc` crate, try updating your dependency with `cargo update -p objc`
+    = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+    = note: this warning originates in the macro `sel_impl` which comes from the expansion of the macro `msg_send` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: unexpected `cfg` condition value: `cargo-clippy`
+   --> src/platform/delegate.rs:136:18
+    |
+136 | ... = msg_send![N...];
+    |       ^^^^^^^^^^^...^
+    |
+    = note: expected values for `feature` are: `cli`, `dasp`, `default`, `flutter`, `flutter_rust_bridge`, `hwcodec`, `inline`, `linux-pkg-config`, `mediacodec`, `plugin_framework`, `rubato`, `samplerate`, `screencapturekit`, `unix-file-copy-paste`, `use_dasp`, `use_rubato`, `use_samplerate`, and `vram`
+    = note: using a cfg inside a macro will use the cfgs from the destination crate and not the ones from the defining crate
+    = help: try referring to `sel_impl` crate for guidance on how handle this unexpected cfg
+    = help: the macro `sel_impl` may come from an old version of the `objc` crate, try updating your dependency with `cargo update -p objc`
+    = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+    = note: this warning originates in the macro `sel_impl` which comes from the expansion of the macro `msg_send` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: unexpected `cfg` condition value: `cargo-clippy`
+   --> src/platform/delegate.rs:176:26
+    |
+176 | ... = msg_send![item, tag];
+    |       ^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: expected values for `feature` are: `cli`, `dasp`, `default`, `flutter`, `flutter_rust_bridge`, `hwcodec`, `inline`, `linux-pkg-config`, `mediacodec`, `plugin_framework`, `rubato`, `samplerate`, `screencapturekit`, `unix-file-copy-paste`, `use_dasp`, `use_rubato`, `use_samplerate`, and `vram`
+    = note: using a cfg inside a macro will use the cfgs from the destination crate and not the ones from the defining crate
+    = help: try referring to `sel_impl` crate for guidance on how handle this unexpected cfg
+    = help: the macro `sel_impl` may come from an old version of the `objc` crate, try updating your dependency with `cargo update -p objc`
+    = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+    = note: this warning originates in the macro `sel_impl` which comes from the expansion of the macro `msg_send` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: unexpected `cfg` condition value: `cargo-clippy`
+   --> src/platform/delegate.rs:220:18
+    |
+220 | ... = sel!(handleMenuItem:);
+    |       ^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: expected values for `feature` are: `cli`, `dasp`, `default`, `flutter`, `flutter_rust_bridge`, `hwcodec`, `inline`, `linux-pkg-config`, `mediacodec`, `plugin_framework`, `rubato`, `samplerate`, `screencapturekit`, `unix-file-copy-paste`, `use_dasp`, `use_rubato`, `use_samplerate`, and `vram`
+    = note: using a cfg inside a macro will use the cfgs from the destination crate and not the ones from the defining crate
+    = help: try referring to `sel_impl` crate for guidance on how handle this unexpected cfg
+    = help: the macro `sel_impl` may come from an old version of the `objc` crate, try updating your dependency with `cargo update -p objc`
+    = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+    = note: this warning originates in the macro `sel_impl` which comes from the expansion of the macro `sel` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: unexpected `cfg` condition value: `cargo-clippy`
+   --> src/platform/delegate.rs:225:14
+    |
+225 | ... = msg_send![object, setTag: tag];
+    |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: expected values for `feature` are: `cli`, `dasp`, `default`, `flutter`, `flutter_rust_bridge`, `hwcodec`, `inline`, `linux-pkg-config`, `mediacodec`, `plugin_framework`, `rubato`, `samplerate`, `screencapturekit`, `unix-file-copy-paste`, `use_dasp`, `use_rubato`, `use_samplerate`, and `vram`
+    = note: using a cfg inside a macro will use the cfgs from the destination crate and not the ones from the defining crate
+    = help: try referring to `sel_impl` crate for guidance on how handle this unexpected cfg
+    = help: the macro `sel_impl` may come from an old version of the `objc` crate, try updating your dependency with `cargo update -p objc`
+    = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+    = note: this warning originates in the macro `sel_impl` which comes from the expansion of the macro `msg_send` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: unexpected `cfg` condition value: `cargo-clippy`
+  --> src/whiteboard/macos.rs:47:42
+   |
+47 | ... = msg_send![ns_view, window];
+   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |
+   = note: expected values for `feature` are: `cli`, `dasp`, `default`, `flutter`, `flutter_rust_bridge`, `hwcodec`, `inline`, `linux-pkg-config`, `mediacodec`, `plugin_framework`, `rubato`, `samplerate`, `screencapturekit`, `unix-file-copy-paste`, `use_dasp`, `use_rubato`, `use_samplerate`, and `vram`
+   = note: using a cfg inside a macro will use the cfgs from the destination crate and not the ones from the defining crate
+   = help: try referring to `sel_impl` crate for guidance on how handle this unexpected cfg
+   = help: the macro `sel_impl` may come from an old version of the `objc` crate, try updating your dependency with `cargo update -p objc`
+   = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+   = note: this warning originates in the macro `sel_impl` which comes from the expansion of the macro `msg_send` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: unexpected `cfg` condition value: `cargo-clippy`
+  --> src/whiteboard/macos.rs:51:25
+   |
+51 | ... = msg_send![ns_window, setOpaque: false];
+   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |
+   = note: expected values for `feature` are: `cli`, `dasp`, `default`, `flutter`, `flutter_rust_bridge`, `hwcodec`, `inline`, `linux-pkg-config`, `mediacodec`, `plugin_framework`, `rubato`, `samplerate`, `screencapturekit`, `unix-file-copy-paste`, `use_dasp`, `use_rubato`, `use_samplerate`, and `vram`
+   = note: using a cfg inside a macro will use the cfgs from the destination crate and not the ones from the defining crate
+   = help: try referring to `sel_impl` crate for guidance on how handle this unexpected cfg
+   = help: the macro `sel_impl` may come from an old version of the `objc` crate, try updating your dependency with `cargo update -p objc`
+   = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+   = note: this warning originates in the macro `sel_impl` which comes from the expansion of the macro `msg_send` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: unexpected `cfg` condition value: `cargo-clippy`
+  --> src/whiteboard/macos.rs:52:25
+   |
+52 | ... = msg_send![ns_window, setLevel: MAXIMUM_WINDOW_LEVEL];
+   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |
+   = note: expected values for `feature` are: `cli`, `dasp`, `default`, `flutter`, `flutter_rust_bridge`, `hwcodec`, `inline`, `linux-pkg-config`, `mediacodec`, `plugin_framework`, `rubato`, `samplerate`, `screencapturekit`, `unix-file-copy-paste`, `use_dasp`, `use_rubato`, `use_samplerate`, and `vram`
+   = note: using a cfg inside a macro will use the cfgs from the destination crate and not the ones from the defining crate
+   = help: try referring to `sel_impl` crate for guidance on how handle this unexpected cfg
+   = help: the macro `sel_impl` may come from an old version of the `objc` crate, try updating your dependency with `cargo update -p objc`
+   = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+   = note: this warning originates in the macro `sel_impl` which comes from the expansion of the macro `msg_send` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: unexpected `cfg` condition value: `cargo-clippy`
+  --> src/whiteboard/macos.rs:54:25
+   |
+54 | ... = msg_send![ns_window, setCollectionBehavior: 5];
+   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |
+   = note: expected values for `feature` are: `cli`, `dasp`, `default`, `flutter`, `flutter_rust_bridge`, `hwcodec`, `inline`, `linux-pkg-config`, `mediacodec`, `plugin_framework`, `rubato`, `samplerate`, `screencapturekit`, `unix-file-copy-paste`, `use_dasp`, `use_rubato`, `use_samplerate`, and `vram`
+   = note: using a cfg inside a macro will use the cfgs from the destination crate and not the ones from the defining crate
+   = help: try referring to `sel_impl` crate for guidance on how handle this unexpected cfg
+   = help: the macro `sel_impl` may come from an old version of the `objc` crate, try updating your dependency with `cargo update -p objc`
+   = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+   = note: this warning originates in the macro `sel_impl` which comes from the expansion of the macro `msg_send` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: unexpected `cfg` condition value: `cargo-clippy`
+  --> src/whiteboard/macos.rs:55:43
+   |
+55 | ... = msg_send![ns_window, styleMask];
+   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |
+   = note: expected values for `feature` are: `cli`, `dasp`, `default`, `flutter`, `flutter_rust_bridge`, `hwcodec`, `inline`, `linux-pkg-config`, `mediacodec`, `plugin_framework`, `rubato`, `samplerate`, `screencapturekit`, `unix-file-copy-paste`, `use_dasp`, `use_rubato`, `use_samplerate`, and `vram`
+   = note: using a cfg inside a macro will use the cfgs from the destination crate and not the ones from the defining crate
+   = help: try referring to `sel_impl` crate for guidance on how handle this unexpected cfg
+   = help: the macro `sel_impl` may come from an old version of the `objc` crate, try updating your dependency with `cargo update -p objc`
+   = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+   = note: this warning originates in the macro `sel_impl` which comes from the expansion of the macro `msg_send` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: unexpected `cfg` condition value: `cargo-clippy`
+  --> src/whiteboard/macos.rs:58:25
+   |
+58 | ... = msg_send![ns_window, setStyleMask: new_style_mask];
+   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |
+   = note: expected values for `feature` are: `cli`, `dasp`, `default`, `flutter`, `flutter_rust_bridge`, `hwcodec`, `inline`, `linux-pkg-config`, `mediacodec`, `plugin_framework`, `rubato`, `samplerate`, `screencapturekit`, `unix-file-copy-paste`, `use_dasp`, `use_rubato`, `use_samplerate`, and `vram`
+   = note: using a cfg inside a macro will use the cfgs from the destination crate and not the ones from the defining crate
+   = help: try referring to `sel_impl` crate for guidance on how handle this unexpected cfg
+   = help: the macro `sel_impl` may come from an old version of the `objc` crate, try updating your dependency with `cargo update -p objc`
+   = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+   = note: this warning originates in the macro `sel_impl` which comes from the expansion of the macro `msg_send` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: unexpected `cfg` condition value: `cargo-clippy`
+  --> src/whiteboard/macos.rs:59:25
+   |
+59 | ... = msg_send![ns_window, setIgnoresMouseEvents: true];
+   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |
+   = note: expected values for `feature` are: `cli`, `dasp`, `default`, `flutter`, `flutter_rust_bridge`, `hwcodec`, `inline`, `linux-pkg-config`, `mediacodec`, `plugin_framework`, `rubato`, `samplerate`, `screencapturekit`, `unix-file-copy-paste`, `use_dasp`, `use_rubato`, `use_samplerate`, and `vram`
+   = note: using a cfg inside a macro will use the cfgs from the destination crate and not the ones from the defining crate
+   = help: try referring to `sel_impl` crate for guidance on how handle this unexpected cfg
+   = help: the macro `sel_impl` may come from an old version of the `objc` crate, try updating your dependency with `cargo update -p objc`
+   = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+   = note: this warning originates in the macro `sel_impl` which comes from the expansion of the macro `msg_send` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: unexpected `cfg` condition value: `cargo-clippy`
+   --> src/whiteboard/macos.rs:129:25
+    |
+129 | ...   msg_send![class!(NSGraphicsContext), currentContext];
+    |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: expected values for `feature` are: `cli`, `dasp`, `default`, `flutter`, `flutter_rust_bridge`, `hwcodec`, `inline`, `linux-pkg-config`, `mediacodec`, `plugin_framework`, `rubato`, `samplerate`, `screencapturekit`, `unix-file-copy-paste`, `use_dasp`, `use_rubato`, `use_samplerate`, and `vram`
+    = note: using a cfg inside a macro will use the cfgs from the destination crate and not the ones from the defining crate
+    = help: try referring to `sel_impl` crate for guidance on how handle this unexpected cfg
+    = help: the macro `sel_impl` may come from an old version of the `objc` crate, try updating your dependency with `cargo update -p objc`
+    = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+    = note: this warning originates in the macro `sel_impl` which comes from the expansion of the macro `msg_send` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: unexpected `cfg` condition value: `cargo-clippy`
+   --> src/whiteboard/macos.rs:129:35
+    |
+129 | ...d![class!(NSGraphicsContext), c...
+    |       ^^^^^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: expected values for `feature` are: `cli`, `dasp`, `default`, `flutter`, `flutter_rust_bridge`, `hwcodec`, `inline`, `linux-pkg-config`, `mediacodec`, `plugin_framework`, `rubato`, `samplerate`, `screencapturekit`, `unix-file-copy-paste`, `use_dasp`, `use_rubato`, `use_samplerate`, and `vram`
+    = note: using a cfg inside a macro will use the cfgs from the destination crate and not the ones from the defining crate
+    = help: try referring to `class` crate for guidance on how handle this unexpected cfg
+    = help: the macro `class` may come from an old version of the `objc` crate, try updating your dependency with `cargo update -p objc`
+    = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+    = note: this warning originates in the macro `class` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: unexpected `cfg` condition value: `cargo-clippy`
+   --> src/whiteboard/macos.rs:132:29
+    |
+132 | ...   msg_send![current_context, CGContext];
+    |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: expected values for `feature` are: `cli`, `dasp`, `default`, `flutter`, `flutter_rust_bridge`, `hwcodec`, `inline`, `linux-pkg-config`, `mediacodec`, `plugin_framework`, `rubato`, `samplerate`, `screencapturekit`, `unix-file-copy-paste`, `use_dasp`, `use_rubato`, `use_samplerate`, and `vram`
+    = note: using a cfg inside a macro will use the cfgs from the destination crate and not the ones from the defining crate
+    = help: try referring to `sel_impl` crate for guidance on how handle this unexpected cfg
+    = help: the macro `sel_impl` may come from an old version of the `objc` crate, try updating your dependency with `cargo update -p objc`
+    = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+    = note: this warning originates in the macro `sel_impl` which comes from the expansion of the macro `msg_send` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: unexpected `cfg` condition value: `cargo-clippy`
+   --> src/whiteboard/macos.rs:212:33
+    |
+212 | ... = msg_send![ns_view, setNeedsDisplay:true];
+    |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: expected values for `feature` are: `cli`, `dasp`, `default`, `flutter`, `flutter_rust_bridge`, `hwcodec`, `inline`, `linux-pkg-config`, `mediacodec`, `plugin_framework`, `rubato`, `samplerate`, `screencapturekit`, `unix-file-copy-paste`, `use_dasp`, `use_rubato`, `use_samplerate`, and `vram`
+    = note: using a cfg inside a macro will use the cfgs from the destination crate and not the ones from the defining crate
+    = help: try referring to `sel_impl` crate for guidance on how handle this unexpected cfg
+    = help: the macro `sel_impl` may come from an old version of the `objc` crate, try updating your dependency with `cargo update -p objc`
+    = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+    = note: this warning originates in the macro `sel_impl` which comes from the expansion of the macro `msg_send` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: unused import: `crate::clipboard_file::*`
+ --> src/server/connection.rs:7:5
+  |
+7 | use crate::clipboard_file::*;
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^
+  |
+  = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused import: `is_installed`
+  --> src/common.rs:42:32
+   |
+42 | ...n, is_installed, s...
+   |       ^^^^^^^^^^^^
+
+warning: unused import: `self`
+  --> src/ipc.rs:28:16
+   |
+28 | ...s::{self, OPT...
+   |        ^^^^
+
+warning: use of deprecated function `hbb_common::base64::encode`: Use Engine::encode
+   --> src/hbbs_http/sync.rs:187:52
+    |
+187 | ...4::encode(&r...
+    |       ^^^^^^
+    |
+    = note: `#[warn(deprecated)]` on by default
+
+error[E0277]: the trait bound `EventToUI: IntoIntoDart<_>` is not satisfied
+   --> src/flutter.rs:585:28
+    |
+585 | ...am.add(Event...
+    |       ^^^ unsatisfied trait bound
+    |
+help: the trait `IntoIntoDart<_>` is not implemented for `EventToUI`
+   --> src/flutter_ffi.rs:95:1
+    |
+ 95 | pub enum EventToUI {
+    | ^^^^^^^^^^^^^^^^^^
+    = help: the following other types implement trait `IntoIntoDart<D>`:
+              `()` implements `IntoIntoDart<()>`
+              `(A, B)` implements `IntoIntoDart<(..., ...)>`
+              `(A, B, C)` implements `IntoIntoDart<(..., ..., ...)>`
+              `(A, B, C, D)` implements `IntoIntoDart<(..., ..., ..., ...)>`
+              `(A, B, C, D, E)` implements `IntoIntoDart<(..., ..., ..., ..., ...)>`
+              `Box<T>` implements `IntoIntoDart<T>`
+              `DartCObject` implements `IntoIntoDart<DartCObject>`
+              `DartOpaque` implements `IntoIntoDart<DartOpaque>`
+            and 23 others
+note: required by a bound in `StreamSink::<T>::add`
+   --> /Users/talhayigityagiz/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/flutter_rust_bridge-1.80.1/src/rust2dart.rs:139:12
+    |
+137 | ...fn add<D: IntoDart>(&...
+    |       --- required by a bound in this associated function
+138 | ...e
+139 | ...T: IntoIntoDart<D>,
+    |       ^^^^^^^^^^^^^^^ required by this bound in `StreamSink::<T>::add`
+    = note: the full name for the type has been written to '/Users/talhayigityagiz/ORTAK/AI/Gemini/ServiceNET-NetDesk/target/release/deps/librustdesk.long-type-8502526409801217923.txt'
+    = note: consider using `--verbose` to print the full type name to the console
+
+error[E0277]: the trait bound `EventToUI: IntoIntoDart<_>` is not satisfied
+    --> src/flutter.rs:1229:24
+     |
+1229 | ...am.add(Even...
+     |       ^^^ unsatisfied trait bound
+     |
+help: the trait `IntoIntoDart<_>` is not implemented for `EventToUI`
+    --> src/flutter_ffi.rs:95:1
+     |
+  95 | pub enum EventToUI {
+     | ^^^^^^^^^^^^^^^^^^
+     = help: the following other types implement trait `IntoIntoDart<D>`:
+               `()` implements `IntoIntoDart<()>`
+               `(A, B)` implements `IntoIntoDart<(..., ...)>`
+               `(A, B, C)` implements `IntoIntoDart<(..., ..., ...)>`
+               `(A, B, C, D)` implements `IntoIntoDart<(..., ..., ..., ...)>`
+               `(A, B, C, D, E)` implements `IntoIntoDart<(..., ..., ..., ..., ...)>`
+               `Box<T>` implements `IntoIntoDart<T>`
+               `DartCObject` implements `IntoIntoDart<DartCObject>`
+               `DartOpaque` implements `IntoIntoDart<DartOpaque>`
+             and 23 others
+note: required by a bound in `StreamSink::<T>::add`
+    --> /Users/talhayigityagiz/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/flutter_rust_bridge-1.80.1/src/rust2dart.rs:139:12
+     |
+ 137 | ...fn add<D: IntoDart>(&...
+     |       --- required by a bound in this associated function
+ 138 | ...e
+ 139 | ...T: IntoIntoDart<D>,
+     |       ^^^^^^^^^^^^^^^ required by this bound in `StreamSink::<T>::add`
+     = note: the full name for the type has been written to '/Users/talhayigityagiz/ORTAK/AI/Gemini/ServiceNET-NetDesk/target/release/deps/librustdesk.long-type-8502526409801217923.txt'
+     = note: consider using `--verbose` to print the full type name to the console
+
+error[E0277]: the trait bound `EventToUI: IntoIntoDart<_>` is not satisfied
+    --> src/flutter.rs:1259:32
+     |
+1259 | ...am.add(Even...
+     |       ^^^ unsatisfied trait bound
+     |
+help: the trait `IntoIntoDart<_>` is not implemented for `EventToUI`
+    --> src/flutter_ffi.rs:95:1
+     |
+  95 | pub enum EventToUI {
+     | ^^^^^^^^^^^^^^^^^^
+     = help: the following other types implement trait `IntoIntoDart<D>`:
+               `()` implements `IntoIntoDart<()>`
+               `(A, B)` implements `IntoIntoDart<(..., ...)>`
+               `(A, B, C)` implements `IntoIntoDart<(..., ..., ...)>`
+               `(A, B, C, D)` implements `IntoIntoDart<(..., ..., ..., ...)>`
+               `(A, B, C, D, E)` implements `IntoIntoDart<(..., ..., ..., ..., ...)>`
+               `Box<T>` implements `IntoIntoDart<T>`
+               `DartCObject` implements `IntoIntoDart<DartCObject>`
+               `DartOpaque` implements `IntoIntoDart<DartOpaque>`
+             and 23 others
+note: required by a bound in `StreamSink::<T>::add`
+    --> /Users/talhayigityagiz/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/flutter_rust_bridge-1.80.1/src/rust2dart.rs:139:12
+     |
+ 137 | ...fn add<D: IntoDart>(&...
+     |       --- required by a bound in this associated function
+ 138 | ...e
+ 139 | ...T: IntoIntoDart<D>,
+     |       ^^^^^^^^^^^^^^^ required by this bound in `StreamSink::<T>::add`
+     = note: the full name for the type has been written to '/Users/talhayigityagiz/ORTAK/AI/Gemini/ServiceNET-NetDesk/target/release/deps/librustdesk.long-type-8502526409801217923.txt'
+     = note: consider using `--verbose` to print the full type name to the console
+
+error[E0277]: the trait bound `EventToUI: IntoIntoDart<_>` is not satisfied
+    --> src/flutter.rs:1428:16
+     |
+1428 | ...am.add(Even...
+     |       ^^^ unsatisfied trait bound
+     |
+help: the trait `IntoIntoDart<_>` is not implemented for `EventToUI`
+    --> src/flutter_ffi.rs:95:1
+     |
+  95 | pub enum EventToUI {
+     | ^^^^^^^^^^^^^^^^^^
+     = help: the following other types implement trait `IntoIntoDart<D>`:
+               `()` implements `IntoIntoDart<()>`
+               `(A, B)` implements `IntoIntoDart<(..., ...)>`
+               `(A, B, C)` implements `IntoIntoDart<(..., ..., ...)>`
+               `(A, B, C, D)` implements `IntoIntoDart<(..., ..., ..., ...)>`
+               `(A, B, C, D, E)` implements `IntoIntoDart<(..., ..., ..., ..., ...)>`
+               `Box<T>` implements `IntoIntoDart<T>`
+               `DartCObject` implements `IntoIntoDart<DartCObject>`
+               `DartOpaque` implements `IntoIntoDart<DartOpaque>`
+             and 23 others
+note: required by a bound in `StreamSink::<T>::add`
+    --> /Users/talhayigityagiz/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/flutter_rust_bridge-1.80.1/src/rust2dart.rs:139:12
+     |
+ 137 | ...fn add<D: IntoDart>(&...
+     |       --- required by a bound in this associated function
+ 138 | ...e
+ 139 | ...T: IntoIntoDart<D>,
+     |       ^^^^^^^^^^^^^^^ required by this bound in `StreamSink::<T>::add`
+     = note: the full name for the type has been written to '/Users/talhayigityagiz/ORTAK/AI/Gemini/ServiceNET-NetDesk/target/release/deps/librustdesk.long-type-8502526409801217923.txt'
+     = note: consider using `--verbose` to print the full type name to the console
+
+warning: value assigned to `synced` is never read
+   --> src/server.rs:765:37
+    |
+765 | ...   synced = true;
+    |       ^^^^^^^^^^^^^
+    |
+    = help: maybe it is overwritten before being read?
+    = note: `#[warn(unused_assignments)]` (part of `#[warn(unused)]`) on by default
+
+warning: value captured by `_tray_icon` is never read
+   --> src/tray.rs:153:29
+    |
+153 | ...=> _tray_icon = ...
+    |       ^^^^^^^^^^
+    |
+    = help: did you mean to capture by reference instead?
+
+warning: value assigned to `_tray_icon` is never read
+   --> src/tray.rs:153:29
+    |
+153 | ...=> _tray_icon = ...
+    |       ^^^^^^^^^^
+    |
+    = help: maybe it is overwritten before being read?
+
+Some errors have detailed explanations: E0277, E0583.
+For more information about an error, try `rustc --explain E0277`.
+warning: `netdesk` (lib) generated 86 warnings
+warning: netdesk@1.4.6: src/platform/macos.mm:32:16: warning: 'CGPreflightScreenCaptureAccess' is only available on macOS 10.15 or newer [-Wunguarded-availability-new]
+warning: netdesk@1.4.6:    32 |     bool res = CGPreflightScreenCaptureAccess();
+warning: netdesk@1.4.6:       |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+warning: netdesk@1.4.6: /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/CoreGraphics.framework/Headers/CGWindow.h:295:16: note: 'CGPreflightScreenCaptureAccess' has been marked as being introduced in macOS 10.15 here, but the deployment target is macOS 10.14.0
+warning: netdesk@1.4.6:   295 | CG_EXTERN bool CGPreflightScreenCaptureAccess(void) API_AVAILABLE(macos(10.15));
+warning: netdesk@1.4.6:       |                ^
+warning: netdesk@1.4.6: src/platform/macos.mm:32:16: note: enclose 'CGPreflightScreenCaptureAccess' in an @available check to silence this warning
+warning: netdesk@1.4.6:    32 |     bool res = CGPreflightScreenCaptureAccess();
+warning: netdesk@1.4.6:       |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+warning: netdesk@1.4.6:    33 |     if (!res && prompt) {
+warning: netdesk@1.4.6:    34 |         CGRequestScreenCaptureAccess();
+warning: netdesk@1.4.6:    35 |     }
+warning: netdesk@1.4.6:    36 |     return res;
+warning: netdesk@1.4.6:       |
+warning: netdesk@1.4.6: src/platform/macos.mm:34:9: warning: 'CGRequestScreenCaptureAccess' is only available on macOS 10.15 or newer [-Wunguarded-availability-new]
+warning: netdesk@1.4.6:    34 |         CGRequestScreenCaptureAccess();
+warning: netdesk@1.4.6:       |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+warning: netdesk@1.4.6: /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/CoreGraphics.framework/Headers/CGWindow.h:298:16: note: 'CGRequestScreenCaptureAccess' has been marked as being introduced in macOS 10.15 here, but the deployment target is macOS 10.14.0
+warning: netdesk@1.4.6:   298 | CG_EXTERN bool CGRequestScreenCaptureAccess(void) API_AVAILABLE(macos(10.15));
+warning: netdesk@1.4.6:       |                ^
+warning: netdesk@1.4.6: src/platform/macos.mm:34:9: note: enclose 'CGRequestScreenCaptureAccess' in an @available check to silence this warning
+warning: netdesk@1.4.6:    34 |         CGRequestScreenCaptureAccess();
+warning: netdesk@1.4.6:       |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+warning: netdesk@1.4.6: src/platform/macos.mm:48:35: warning: 'IOHIDCheckAccess' is only available on macOS 10.15 or newer [-Wunguarded-availability-new]
+warning: netdesk@1.4.6:    48 |         IOHIDAccessType theType = IOHIDCheckAccess(kIOHIDRequestTypeListenEvent);
+warning: netdesk@1.4.6:       |                                   ^~~~~~~~~~~~~~~~
+warning: netdesk@1.4.6: /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/IOKit.framework/Headers/hidsystem/IOHIDLib.h:192:17: note: 'IOHIDCheckAccess' has been marked as being introduced in macOS 10.15 here, but the deployment target is macOS 10.14.0
+warning: netdesk@1.4.6:   192 | IOHIDAccessType IOHIDCheckAccess(IOHIDRequestType requestType)
+warning: netdesk@1.4.6:       |                 ^
+warning: netdesk@1.4.6: src/platform/macos.mm:48:35: note: enclose 'IOHIDCheckAccess' in an @available check to silence this warning
+warning: netdesk@1.4.6:    48 |         IOHIDAccessType theType = IOHIDCheckAccess(kIOHIDRequestTypeListenEvent);
+warning: netdesk@1.4.6:       |                                   ^~~~~~~~~~~~~~~~
+warning: netdesk@1.4.6: src/platform/macos.mm:63:35: warning: 'IOHIDRequestAccess' is only available on macOS 10.15 or newer [-Wunguarded-availability-new]
+warning: netdesk@1.4.6:    63 |                     bool result = IOHIDRequestAccess(kIOHIDRequestTypeListenEvent);
+warning: netdesk@1.4.6:       |                                   ^~~~~~~~~~~~~~~~~~
+warning: netdesk@1.4.6: /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/IOKit.framework/Headers/hidsystem/IOHIDLib.h:213:6: note: 'IOHIDRequestAccess' has been marked as being introduced in macOS 10.15 here, but the deployment target is macOS 10.14.0
+warning: netdesk@1.4.6:   213 | bool IOHIDRequestAccess(IOHIDRequestType requestType)
+warning: netdesk@1.4.6:       |      ^
+warning: netdesk@1.4.6: src/platform/macos.mm:63:35: note: enclose 'IOHIDRequestAccess' in an @available check to silence this warning
+warning: netdesk@1.4.6:    63 |                     bool result = IOHIDRequestAccess(kIOHIDRequestTypeListenEvent);
+warning: netdesk@1.4.6:       |                                   ^~~~~~~~~~~~~~~~~~
+warning: netdesk@1.4.6:    64 |                     NSLog(@"IOHIDRequestAccess result = %d", result);
+warning: netdesk@1.4.6:       |
+warning: netdesk@1.4.6: src/platform/macos.mm:103:18: warning: 'AuthorizationExecuteWithPrivileges' is deprecated: first deprecated in macOS 10.7 [-Wdeprecated-declarations]
+warning: netdesk@1.4.6:   103 |         status = AuthorizationExecuteWithPrivileges(authRef, process, kAuthorizationFlagDefaults, args, &pipe);
+warning: netdesk@1.4.6:       |                  ^
+warning: netdesk@1.4.6: /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/Security.framework/Headers/Authorization.h:427:10: note: 'AuthorizationExecuteWithPrivileges' has been explicitly marked deprecated here
+warning: netdesk@1.4.6:   427 | OSStatus AuthorizationExecuteWithPrivileges(AuthorizationRef authorization,
+warning: netdesk@1.4.6:       |          ^
+warning: netdesk@1.4.6: src/platform/macos.mm:141:30: warning: 'CGDisplayModeCopyPixelEncoding' is deprecated: first deprecated in macOS 10.11 - No longer supported [-Wdeprecated-declarations]
+warning: netdesk@1.4.6:   141 |         CFStringRef pixelEncoding = CGDisplayModeCopyPixelEncoding(mode);
+warning: netdesk@1.4.6:       |                                     ^
+warning: netdesk@1.4.6: /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/CoreGraphics.framework/Headers/CGDirectDisplay.h:177:34: note: 'CGDisplayModeCopyPixelEncoding' has been explicitly marked deprecated here
+warning: netdesk@1.4.6:   177 | CG_EXTERN CFStringRef __nullable CGDisplayModeCopyPixelEncoding(
+warning: netdesk@1.4.6:       |                                  ^
+warning: netdesk@1.4.6: 6 warnings generated.
+error: could not compile `netdesk` (lib) due to 5 previous errors; 86 warnings emitted
