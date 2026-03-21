@@ -132,11 +132,10 @@ jobs:
           # The Xcode project looks for libnetdesk.dylib at ../../target/release relative to flutter/macos/
           # We explicitly provide the LIBRARY_SEARCH_PATHS override to ensure Xcode finds it
           DYLIB_DIR="$(pwd)/target/release"
+          export LIBRARY_SEARCH_PATHS="$DYLIB_DIR \$(inherited)"
           pushd flutter
           flutter build macos --release \
-            --dart-define=CI=true \
-            -- \
-            LIBRARY_SEARCH_PATHS="$DYLIB_DIR \$(inherited)"
+            --dart-define=CI=true
           popd
 
       - name: Verify app bundle and copy service binary
