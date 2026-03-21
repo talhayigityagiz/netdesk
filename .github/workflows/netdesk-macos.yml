@@ -38,6 +38,7 @@ jobs:
         with:
           toolchain: ${{ env.MAC_RUST_VERSION }}
           targets: ${{ matrix.arch }}-apple-darwin
+          components: rustfmt, clippy
 
       - name: Cache Cargo registry and git dependencies
         uses: actions/cache@v4
