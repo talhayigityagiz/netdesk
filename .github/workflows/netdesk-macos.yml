@@ -85,6 +85,12 @@ jobs:
             --dart-output ./flutter/lib/generated_bridge.dart \
             --c-output ./flutter/macos/Runner/bridge_generated.h
 
+      - name: Prepare vcpkg baseline
+        run: |
+          cd vcpkg
+          git fetch --unshallow || true
+          git fetch --all
+
       - name: Setup vcpkg
         uses: lukka/run-vcpkg@v11
         with:
