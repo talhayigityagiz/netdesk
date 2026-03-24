@@ -1,10 +1,12 @@
 name: Build NetDesk Windows
 
 on:
-  workflow_dispatch: # Manual trigger
+  push:
+    branches: [ master ]
+  workflow_dispatch:
 
 env:
-  SCITER_RUST_VERSION: "1.75"
+  RUST_VERSION: "1.81"
   LLVM_VERSION: "15.0.6"
   FLUTTER_VERSION: "3.24.5"
   VCPKG_COMMIT_ID: "120deac3062162151622ca4860575a33844ba10b"
@@ -15,7 +17,7 @@ jobs:
   build-windows:
     name: Build Windows x64
     runs-on: windows-2022
-    
+
     steps:
       - name: Checkout source code
         uses: actions/checkout@v4
@@ -26,6 +28,24 @@ jobs:
         uses: KyleMayes/install-llvm-action@v1
         with:
           version: ${{ env.LLVM_VERSION }}
+
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: ${{ env.RUST_VERSION }}
+          targets: x86_64-pc-windows-msvc
+          components: rustfmt, clippy
+
+      - name: Cache Cargo registry and git dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            target
+          key: windows-x64-cargo-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: |
+            windows-x64-cargo-
 
       - name: Install flutter
         uses: subosito/flutter-action@v2
@@ -42,13 +62,17 @@ jobs:
       - name: Generate Bridge Code
         shell: bash
         run: |
-          $HOME/.cargo/bin/flutter_rust_bridge_codegen --rust-input ./src/flutter_ffi.rs --dart-output ./flutter/lib/generated_bridge.dart --c-output ./flutter/macos/Runner/bridge_generated.h
+          "$HOME/.cargo/bin/flutter_rust_bridge_codegen" \
+            --rust-input ./src/flutter_ffi.rs \
+            --dart-output ./flutter/lib/generated_bridge.dart \
+            --c-output ./flutter/windows/runner/bridge_generated.h
 
-      - name: Install Rust toolchain
-        uses: dtolnay/rust-toolchain@v1
-        with:
-          toolchain: ${{ env.SCITER_RUST_VERSION }}
-          targets: x86_64-pc-windows-msvc
+      - name: Prepare vcpkg baseline
+        shell: bash
+        run: |
+          cd vcpkg
+          git fetch --unshallow || true
+          git fetch --all
 
       - name: Setup vcpkg
         uses: lukka/run-vcpkg@v11
@@ -58,24 +82,70 @@ jobs:
 
       - name: Install vcpkg dependencies
         run: |
-          & $env:VCPKG_ROOT\vcpkg install --triplet x64-windows-static --x-install-root="$env:VCPKG_ROOT\installed"
+          & "$env:VCPKG_ROOT\vcpkg" install --triplet x64-windows-static --x-install-root="$env:VCPKG_ROOT\installed"
 
-      - name: Build NetDesk
+      - name: Build virtual display library
         shell: bash
         run: |
-          python3 build.py --portable --hwcodec --flutter --vram --skip-portable-pack
-          mv ./flutter/build/windows/x64/runner/Release ./rustdesk-bin
+          cd libs/virtual_display/dylib
+          cargo build --release
+          cd ../../..
 
-      - name: Build MSI
+      - name: Build Rust library
+        shell: bash
+        run: |
+          cargo build \
+            --target x86_64-pc-windows-msvc \
+            --features flutter,hwcodec,vram \
+            --lib \
+            --release
+          ls target/x86_64-pc-windows-msvc/release/netdesk.dll 2>/dev/null || \
+          ls target/release/netdesk.dll 2>/dev/null || \
+          { echo "ERROR: netdesk.dll not found!"; exit 1; }
+          # Copy DLL to where build.py expects it
+          mkdir -p target/release
+          cp target/x86_64-pc-windows-msvc/release/netdesk.dll target/release/netdesk.dll 2>/dev/null || true
+
+      - name: Build Flutter Windows app
+        shell: bash
+        run: |
+          cd flutter
+          flutter build windows --release
+          cd ..
+
+      - name: Copy dylib_virtual_display.dll
+        shell: bash
+        run: |
+          RELEASE_DIR="flutter/build/windows/x64/runner/Release"
+          if [ -f "target/release/deps/dylib_virtual_display.dll" ]; then
+            cp target/release/deps/dylib_virtual_display.dll "$RELEASE_DIR/"
+          elif [ -f "libs/virtual_display/dylib/target/release/dylib_virtual_display.dll" ]; then
+            cp libs/virtual_display/dylib/target/release/dylib_virtual_display.dll "$RELEASE_DIR/"
+          else
+            echo "WARNING: dylib_virtual_display.dll not found, skipping."
+          fi
+
+      - name: Verify Flutter build output
+        shell: bash
+        run: |
+          RELEASE_DIR="flutter/build/windows/x64/runner/Release"
+          if [ ! -d "$RELEASE_DIR" ]; then
+            echo "ERROR: Flutter release folder not found at $RELEASE_DIR"
+            exit 1
+          fi
+          echo "=== Release contents ==="
+          ls -al "$RELEASE_DIR"
+
+      - name: Package as ZIP
         shell: pwsh
         run: |
-          cd res/msi
-          python3 preprocess.py --arp -d ../../rustdesk-bin
-          # Skip msbuild if Wix is not installed, but usually it is on windows-2022
-          # For now, let's just pack the bin folder
-          
+          $releaseDir = "flutter\build\windows\x64\runner\Release"
+          $zipName    = "netdesk-${{ env.VERSION }}-windows-x64.zip"
+          Compress-Archive -Path "$releaseDir\*" -DestinationPath $zipName -Force
+          Write-Host "Created: $zipName"
+
       - name: Upload Windows Artifact
         uses: actions/upload-artifact@v4
         with:
           name: netdesk-windows-x64
-          path: rustdesk-bin/
+          path: netdesk-${{ env.VERSION }}-windows-x64.zip
