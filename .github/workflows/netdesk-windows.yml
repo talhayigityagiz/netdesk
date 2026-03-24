@@ -84,6 +84,11 @@ jobs:
         run: |
           & "$env:VCPKG_ROOT\vcpkg" install --triplet x64-windows-static --x-install-root="$env:VCPKG_ROOT\installed"
 
+      - name: Install FFmpeg via vcpkg
+        run: |
+          & "$env:VCPKG_ROOT\vcpkg" install ffmpeg --triplet x64-windows-static --x-install-root="$env:VCPKG_ROOT\installed"
+          echo "FFMPEG_DIR=$env:VCPKG_ROOT\installed\x64-windows-static" | Out-File -FilePath $env:GITHUB_ENV -Append
+
       - name: Build virtual display library
         shell: bash
         run: |
@@ -93,6 +98,8 @@ jobs:
 
       - name: Build Rust library
         shell: bash
+        env:
+          FFMPEG_DIR: ${{ env.FFMPEG_DIR }}
         run: |
           cargo build \
             --target x86_64-pc-windows-msvc \
