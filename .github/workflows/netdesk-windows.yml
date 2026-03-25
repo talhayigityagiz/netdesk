@@ -111,11 +111,15 @@ jobs:
           FFMPEG_INCLUDE_DIR: ${{ env.FFMPEG_INCLUDE_DIR }}
           FFMPEG_LIB_DIR: ${{ env.FFMPEG_LIB_DIR }}
         run: |
-          $env:FFMPEG_DIR      = "$env:FFMPEG_DIR"
+          $env:FFMPEG_DIR         = "$env:FFMPEG_DIR"
           $env:FFMPEG_INCLUDE_DIR = "$env:FFMPEG_INCLUDE_DIR"
-          $env:FFMPEG_LIB_DIR  = "$env:FFMPEG_LIB_DIR"
-          Write-Host "FFMPEG_DIR = $env:FFMPEG_DIR"
-          Write-Host "FFMPEG_INCLUDE_DIR = $env:FFMPEG_INCLUDE_DIR"
+          $env:FFMPEG_LIB_DIR     = "$env:FFMPEG_LIB_DIR"
+          # Expose headers and libs to the MSVC compiler/linker (cl.exe, link.exe)
+          $env:INCLUDE = "$env:FFMPEG_INCLUDE_DIR;$env:INCLUDE"
+          $env:LIB     = "$env:FFMPEG_LIB_DIR;$env:LIB"
+          Write-Host "FFMPEG_DIR          = $env:FFMPEG_DIR"
+          Write-Host "FFMPEG_INCLUDE_DIR  = $env:FFMPEG_INCLUDE_DIR"
+          Write-Host "FFMPEG_LIB_DIR      = $env:FFMPEG_LIB_DIR"
           cargo build `
             --target x86_64-pc-windows-msvc `
             --features flutter,hwcodec,vram `
