@@ -85,16 +85,12 @@ jobs:
         run: |
           # hwcodec uses AVFrame::key_frame which was removed in FFmpeg 7.0.
           # Pin to FFmpeg 6.1 which still exposes that field.
-          $url = "https://github.com/BtbN/FFmpeg-Builds/releases/download/autobuild-2024-12-30/ffmpeg-n6.1-26-g2b81e0e8-win64-gpl-shared.zip"
+          # Pin to FFmpeg 6.1.x as BtbN 'master' is now FFmpeg 7.0+ which lacks AVFrame::key_frame.
+          # Verified URL from BtbN releases (Nov 2024 build).
+          $url = "https://github.com/BtbN/FFmpeg-Builds/releases/download/autobuild-2024-11-30-13-12/ffmpeg-n6.1.2-15-ga6a07eebdf-win64-gpl-shared-6.1.zip"
           Write-Host "Downloading FFmpeg 6.1 from: $url"
-          try {
-            Invoke-WebRequest -Uri $url -OutFile "$env:TEMP\ffmpeg.zip" -UseBasicParsing
-          } catch {
-            Write-Host "Primary URL failed, trying fallback..."
-            # Note: master-latest might be FFmpeg 7.0+ which breaks hwcodec, but it's a last resort
-            $url = "https://github.com/BtbN/FFmpeg-Builds/releases/download/latest/ffmpeg-master-latest-win64-gpl-shared.zip"
-            Invoke-WebRequest -Uri $url -OutFile "$env:TEMP\ffmpeg.zip" -UseBasicParsing
-          }
+          Invoke-WebRequest -Uri $url -OutFile "$env:TEMP\ffmpeg.zip" -UseBasicParsing
+
           Expand-Archive -Path "$env:TEMP\ffmpeg.zip" -DestinationPath "$env:TEMP\ffmpeg" -Force
           $ffmpegDir = (Get-ChildItem "$env:TEMP\ffmpeg" -Directory | Select-Object -First 1).FullName
           echo "FFMPEG_DIR=$ffmpegDir" | Out-File -FilePath $env:GITHUB_ENV -Append
