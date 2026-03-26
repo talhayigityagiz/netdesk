@@ -80,18 +80,22 @@ jobs:
           vcpkgDirectory: C:\vcpkg
           vcpkgGitCommitId: ${{ env.VCPKG_COMMIT_ID }}
 
-      - name: Download prebuilt FFmpeg dev (Windows x64 static)
+      - name: Download prebuilt FFmpeg 6.1 dev (Windows x64 gpl-shared)
         shell: pwsh
         run: |
-          $url = "https://github.com/BtbN/FFmpeg-Builds/releases/download/latest/ffmpeg-master-latest-win64-gpl-shared.zip"
+          # hwcodec uses AVFrame::key_frame which was removed in FFmpeg 7.0.
+          # Pin to FFmpeg 6.1 which still exposes that field.
+          $url = "https://github.com/BtbN/FFmpeg-Builds/releases/download/autobuild-2024-01-31-12-55/ffmpeg-n6.1.1-26-gee54d99d95-win64-gpl-shared-6.1.zip"
+          Write-Host "Downloading FFmpeg 6.1 from: $url"
           Invoke-WebRequest -Uri $url -OutFile "$env:TEMP\ffmpeg.zip" -UseBasicParsing
           Expand-Archive -Path "$env:TEMP\ffmpeg.zip" -DestinationPath "$env:TEMP\ffmpeg" -Force
           $ffmpegDir = (Get-ChildItem "$env:TEMP\ffmpeg" -Directory | Select-Object -First 1).FullName
           echo "FFMPEG_DIR=$ffmpegDir" | Out-File -FilePath $env:GITHUB_ENV -Append
           echo "FFMPEG_INCLUDE_DIR=$ffmpegDir\include" | Out-File -FilePath $env:GITHUB_ENV -Append
           echo "FFMPEG_LIB_DIR=$ffmpegDir\lib" | Out-File -FilePath $env:GITHUB_ENV -Append
-          echo "FFmpeg installed to: $ffmpegDir"
-          ls "$ffmpegDir\include"
+          Write-Host "FFmpeg 6.1 installed to: $ffmpegDir"
+          Get-ChildItem "$ffmpegDir\include"
+
 
       - name: Install vcpkg manifest dependencies
         run: |
