@@ -85,7 +85,7 @@ jobs:
         run: |
           # hwcodec uses AVFrame::key_frame which was removed in FFmpeg 7.0.
           # Pin to FFmpeg 6.1 which still exposes that field.
-          $url = "https://github.com/BtbN/FFmpeg-Builds/releases/download/autobuild-2024-01-31-12-55/ffmpeg-n6.1.1-26-gee54d99d95-win64-gpl-shared-6.1.zip"
+          $url = "https://github.com/BtbN/FFmpeg-Builds/releases/download/autobuild-2024-12-29-12-53/ffmpeg-n6.1.1-26-gee54d99d95-win64-gpl-shared-6.1.zip"
           Write-Host "Downloading FFmpeg 6.1 from: $url"
           Invoke-WebRequest -Uri $url -OutFile "$env:TEMP\ffmpeg.zip" -UseBasicParsing
           Expand-Archive -Path "$env:TEMP\ffmpeg.zip" -DestinationPath "$env:TEMP\ffmpeg" -Force
