@@ -103,7 +103,7 @@ jobs:
 
       - name: Install vcpkg manifest dependencies
         run: |
-          & "$env:VCPKG_ROOT\vcpkg" install
+          & "$env:VCPKG_ROOT\vcpkg" install opus:x64-windows-static ffmpeg:x64-windows-static --triplet x64-windows-static
 
       - name: Build virtual display library
         shell: bash
@@ -119,15 +119,19 @@ jobs:
           FFMPEG_INCLUDE_DIR: ${{ env.FFMPEG_INCLUDE_DIR }}
           FFMPEG_LIB_DIR: ${{ env.FFMPEG_LIB_DIR }}
         run: |
+          $vcpkgInstalled = "C:\vcpkg\installed"
           $env:FFMPEG_DIR         = "$env:FFMPEG_DIR"
           $env:FFMPEG_INCLUDE_DIR = "$env:FFMPEG_INCLUDE_DIR"
           $env:FFMPEG_LIB_DIR     = "$env:FFMPEG_LIB_DIR"
           # Expose headers and libs to the MSVC compiler/linker (cl.exe, link.exe)
-          $env:INCLUDE = "$env:FFMPEG_INCLUDE_DIR;$env:INCLUDE"
-          $env:LIB     = "$env:FFMPEG_LIB_DIR;$env:LIB"
+          # Including vcpkg-installed paths for Opus and other dependencies
+          $env:INCLUDE = "$env:FFMPEG_INCLUDE_DIR;$vcpkgInstalled\x64-windows-static\include;$env:INCLUDE"
+          $env:LIB     = "$env:FFMPEG_LIB_DIR;$vcpkgInstalled\x64-windows-static\lib;$env:LIB"
           Write-Host "FFMPEG_DIR          = $env:FFMPEG_DIR"
           Write-Host "FFMPEG_INCLUDE_DIR  = $env:FFMPEG_INCLUDE_DIR"
           Write-Host "FFMPEG_LIB_DIR      = $env:FFMPEG_LIB_DIR"
+          Write-Host "INCLUDE paths       = $env:INCLUDE"
+          Write-Host "LIB paths           = $env:LIB"
           cargo build `
             --target x86_64-pc-windows-msvc `
             --features flutter,hwcodec,vram `
