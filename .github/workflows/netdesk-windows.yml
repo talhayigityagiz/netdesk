@@ -118,11 +118,14 @@ jobs:
           FFMPEG_DIR: ${{ env.FFMPEG_DIR }}
           FFMPEG_INCLUDE_DIR: ${{ env.FFMPEG_INCLUDE_DIR }}
           FFMPEG_LIB_DIR: ${{ env.FFMPEG_LIB_DIR }}
+          RUSTFLAGS: -L ${{ env.FFMPEG_LIB_DIR }}
         run: |
           $vcpkgInstalled = "C:\vcpkg\installed"
           $env:FFMPEG_DIR         = "$env:FFMPEG_DIR"
           $env:FFMPEG_INCLUDE_DIR = "$env:FFMPEG_INCLUDE_DIR"
           $env:FFMPEG_LIB_DIR     = "$env:FFMPEG_LIB_DIR"
+          # Set RUSTFLAGS to help the linker find FFmpeg
+          $env:RUSTFLAGS          = "-L $env:FFMPEG_LIB_DIR"
           # Expose headers and libs to the MSVC compiler/linker (cl.exe, link.exe)
           # Including vcpkg-installed paths for Opus and other dependencies
           $env:INCLUDE = "$env:FFMPEG_INCLUDE_DIR;$vcpkgInstalled\x64-windows-static\include;$env:INCLUDE"
@@ -130,6 +133,7 @@ jobs:
           Write-Host "FFMPEG_DIR          = $env:FFMPEG_DIR"
           Write-Host "FFMPEG_INCLUDE_DIR  = $env:FFMPEG_INCLUDE_DIR"
           Write-Host "FFMPEG_LIB_DIR      = $env:FFMPEG_LIB_DIR"
+          Write-Host "RUSTFLAGS           = $env:RUSTFLAGS"
           Write-Host "INCLUDE paths       = $env:INCLUDE"
           Write-Host "LIB paths           = $env:LIB"
           cargo build `
