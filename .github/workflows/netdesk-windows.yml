@@ -160,8 +160,8 @@ jobs:
           $env:MEDIASDK_DIR       = "$env:MEDIASDK_DIR"
           $env:MEDIASDK_LIB_DIR   = "$env:MEDIASDK_LIB_DIR"
           $env:MEDIASDK_INCLUDE_DIR = "$env:MEDIASDK_INCLUDE_DIR"
-          # Set RUSTFLAGS to help the linker find FFmpeg and Media SDK
-          $env:RUSTFLAGS          = "-L $env:FFMPEG_LIB_DIR -L $env:MEDIASDK_LIB_DIR"
+          # Set RUSTFLAGS to help the linker find FFmpeg and Media SDK and explicitly link libmfx
+          $env:RUSTFLAGS          = "-L $env:FFMPEG_LIB_DIR -L $env:MEDIASDK_LIB_DIR -l libmfx"
           # Expose headers and libs to the MSVC compiler/linker
           $env:INCLUDE = "$env:FFMPEG_INCLUDE_DIR;$env:MEDIASDK_INCLUDE_DIR;$vcpkgInstalled\x64-windows-static\include;$env:INCLUDE"
           $env:LIB     = "$env:FFMPEG_LIB_DIR;$env:MEDIASDK_LIB_DIR;$vcpkgInstalled\x64-windows-static\lib;$env:LIB"
