@@ -130,6 +130,8 @@ jobs:
           # Including vcpkg-installed paths for Opus and other dependencies
           $env:INCLUDE = "$env:FFMPEG_INCLUDE_DIR;$vcpkgInstalled\x64-windows-static\include;$env:INCLUDE"
           $env:LIB     = "$env:FFMPEG_LIB_DIR;$vcpkgInstalled\x64-windows-static\lib;$env:LIB"
+          # Add LIBCLANG_PATH for proper C header detection
+          $env:LIBCLANG_PATH = "C:\Program Files\LLVM\bin"
           Write-Host "FFMPEG_DIR          = $env:FFMPEG_DIR"
           Write-Host "FFMPEG_INCLUDE_DIR  = $env:FFMPEG_INCLUDE_DIR"
           Write-Host "FFMPEG_LIB_DIR      = $env:FFMPEG_LIB_DIR"
