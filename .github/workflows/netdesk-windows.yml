@@ -112,29 +112,51 @@ jobs:
           cargo build --release
           cd ../../..
 
+      - name: Download and setup Intel Media SDK
+        shell: pwsh
+        run: |
+          # Download Intel Media SDK (oneVPL)
+          $url = "https://github.com/Intel-Media-SDK/MediaSDK/releases/download/intel-mediasdk-21.1.0/MediaStack_MSVC_x64.zip"
+          Write-Host "Downloading Intel Media SDK from: $url"
+          Invoke-WebRequest -Uri $url -OutFile "$env:TEMP\mediasdk.zip" -UseBasicParsing
+          
+          Expand-Archive -Path "$env:TEMP\mediasdk.zip" -DestinationPath "$env:TEMP\mediasdk" -Force
+          $mediaSdkDir = "$env:TEMP\mediasdk\MediaStack_MSVC_x64"
+          echo "MEDIASDK_DIR=$mediaSdkDir" | Out-File -FilePath $env:GITHUB_ENV -Append
+          echo "MEDIASDK_LIB_DIR=$mediaSdkDir\lib\x64" | Out-File -FilePath $env:GITHUB_ENV -Append
+          echo "MEDIASDK_INCLUDE_DIR=$mediaSdkDir\include" | Out-File -FilePath $env:GITHUB_ENV -Append
+          Write-Host "Intel Media SDK installed to: $mediaSdkDir"
+
       - name: Build Rust library
         shell: pwsh
         env:
           FFMPEG_DIR: ${{ env.FFMPEG_DIR }}
           FFMPEG_INCLUDE_DIR: ${{ env.FFMPEG_INCLUDE_DIR }}
           FFMPEG_LIB_DIR: ${{ env.FFMPEG_LIB_DIR }}
-          RUSTFLAGS: -L ${{ env.FFMPEG_LIB_DIR }}
+          MEDIASDK_DIR: ${{ env.MEDIASDK_DIR }}
+          MEDIASDK_LIB_DIR: ${{ env.MEDIASDK_LIB_DIR }}
+          MEDIASDK_INCLUDE_DIR: ${{ env.MEDIASDK_INCLUDE_DIR }}
         run: |
           $vcpkgInstalled = "C:\vcpkg\installed"
           $env:FFMPEG_DIR         = "$env:FFMPEG_DIR"
           $env:FFMPEG_INCLUDE_DIR = "$env:FFMPEG_INCLUDE_DIR"
           $env:FFMPEG_LIB_DIR     = "$env:FFMPEG_LIB_DIR"
-          # Set RUSTFLAGS to help the linker find FFmpeg
-          $env:RUSTFLAGS          = "-L $env:FFMPEG_LIB_DIR"
-          # Expose headers and libs to the MSVC compiler/linker (cl.exe, link.exe)
-          # Including vcpkg-installed paths for Opus and other dependencies
-          $env:INCLUDE = "$env:FFMPEG_INCLUDE_DIR;$vcpkgInstalled\x64-windows-static\include;$env:INCLUDE"
-          $env:LIB     = "$env:FFMPEG_LIB_DIR;$vcpkgInstalled\x64-windows-static\lib;$env:LIB"
+          $env:MEDIASDK_DIR       = "$env:MEDIASDK_DIR"
+          $env:MEDIASDK_LIB_DIR   = "$env:MEDIASDK_LIB_DIR"
+          $env:MEDIASDK_INCLUDE_DIR = "$env:MEDIASDK_INCLUDE_DIR"
+          # Set RUSTFLAGS to help the linker find FFmpeg and Media SDK
+          $env:RUSTFLAGS          = "-L $env:FFMPEG_LIB_DIR -L $env:MEDIASDK_LIB_DIR"
+          # Expose headers and libs to the MSVC compiler/linker
+          $env:INCLUDE = "$env:FFMPEG_INCLUDE_DIR;$env:MEDIASDK_INCLUDE_DIR;$vcpkgInstalled\x64-windows-static\include;$env:INCLUDE"
+          $env:LIB     = "$env:FFMPEG_LIB_DIR;$env:MEDIASDK_LIB_DIR;$vcpkgInstalled\x64-windows-static\lib;$env:LIB"
           # Add LIBCLANG_PATH for proper C header detection
           $env:LIBCLANG_PATH = "C:\Program Files\LLVM\bin"
           Write-Host "FFMPEG_DIR          = $env:FFMPEG_DIR"
           Write-Host "FFMPEG_INCLUDE_DIR  = $env:FFMPEG_INCLUDE_DIR"
           Write-Host "FFMPEG_LIB_DIR      = $env:FFMPEG_LIB_DIR"
+          Write-Host "MEDIASDK_DIR        = $env:MEDIASDK_DIR"
+          Write-Host "MEDIASDK_LIB_DIR    = $env:MEDIASDK_LIB_DIR"
+          Write-Host "MEDIASDK_INCLUDE_DIR= $env:MEDIASDK_INCLUDE_DIR"
           Write-Host "RUSTFLAGS           = $env:RUSTFLAGS"
           Write-Host "INCLUDE paths       = $env:INCLUDE"
           Write-Host "LIB paths           = $env:LIB"
