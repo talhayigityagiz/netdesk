@@ -143,6 +143,20 @@ jobs:
           echo "MEDIASDK_INCLUDE_DIR=$mediaSdkDir\include" | Out-File -FilePath $env:GITHUB_ENV -Append
           Write-Host "Intel Media SDK configured at: $mediaSdkDir"
 
+      - name: Verify vcpkg opus installation
+        shell: pwsh
+        run: |
+          $opusInclude = "C:\vcpkg\installed\x64-windows-static\include\opus"
+          if (Test-Path $opusInclude) {
+            Write-Host "✓ Opus headers found at: $opusInclude"
+            Get-ChildItem $opusInclude
+          } else {
+            Write-Host "✗ Opus headers NOT found at: $opusInclude"
+            Write-Host "Available include directories:"
+            Get-ChildItem "C:\vcpkg\installed\x64-windows-static\include" | Select-Object Name
+            exit 1
+          }
+
       - name: Build Rust library
         shell: pwsh
         env:
@@ -163,7 +177,7 @@ jobs:
           # Set RUSTFLAGS to help the linker find FFmpeg and Media SDK and explicitly link libmfx
           $env:RUSTFLAGS          = "-L $env:FFMPEG_LIB_DIR -L $env:MEDIASDK_LIB_DIR -l mfx"
           # Expose headers and libs to the MSVC compiler/linker
-          $env:INCLUDE = "$env:FFMPEG_INCLUDE_DIR;$env:MEDIASDK_INCLUDE_DIR;$vcpkgInstalled\x64-windows-static\include;$env:INCLUDE"
+          $env:INCLUDE = "$env:FFMPEG_INCLUDE_DIR;$env:MEDIASDK_INCLUDE_DIR;$vcpkgInstalled\x64-windows-static\include;$vcpkgInstalled\x64-windows-static\include\opus;$env:INCLUDE"
           $env:LIB     = "$env:FFMPEG_LIB_DIR;$env:MEDIASDK_LIB_DIR;$vcpkgInstalled\x64-windows-static\lib;$env:LIB"
           # Add LIBCLANG_PATH for proper C header detection
           $env:LIBCLANG_PATH = "C:\Program Files\LLVM\bin"
