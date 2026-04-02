@@ -125,7 +125,7 @@ jobs:
           } catch {
             Write-Host "Failed to download from primary URL, falling back to vcpkg mfx-dispatch..."
             # Fallback: create mock MediaSDK structure from vcpkg's mfx-dispatch
-            $vcpkgInstalled = "C:\vcpkg\installed\x64-windows-static"
+            $vcpkgInstalled = "$PWD\vcpkg_installed\x64-windows-static"
             $mediaSdkDir = "$env:TEMP\mediasdk\MediaStack_MSVC_x64"
             New-Item -ItemType Directory -Force -Path "$mediaSdkDir\lib\x64" | Out-Null
             New-Item -ItemType Directory -Force -Path "$mediaSdkDir\include" | Out-Null
@@ -146,14 +146,14 @@ jobs:
       - name: Verify vcpkg opus installation
         shell: pwsh
         run: |
-          $opusInclude = "C:\vcpkg\installed\x64-windows-static\include\opus"
+          $opusInclude = "$PWD\vcpkg_installed\x64-windows-static\include\opus"
           if (Test-Path $opusInclude) {
             Write-Host "✓ Opus headers found at: $opusInclude"
             Get-ChildItem $opusInclude
           } else {
             Write-Host "✗ Opus headers NOT found at: $opusInclude"
             Write-Host "Available include directories:"
-            Get-ChildItem "C:\vcpkg\installed\x64-windows-static\include" | Select-Object Name
+            Get-ChildItem "$PWD\vcpkg_installed\x64-windows-static\include" -ErrorAction SilentlyContinue | Select-Object Name
             exit 1
           }
 
@@ -167,7 +167,7 @@ jobs:
           MEDIASDK_LIB_DIR: ${{ env.MEDIASDK_LIB_DIR }}
           MEDIASDK_INCLUDE_DIR: ${{ env.MEDIASDK_INCLUDE_DIR }}
         run: |
-          $vcpkgInstalled = "C:\vcpkg\installed"
+          $vcpkgInstalled = "$PWD\vcpkg_installed"
           $env:FFMPEG_DIR         = "$env:FFMPEG_DIR"
           $env:FFMPEG_INCLUDE_DIR = "$env:FFMPEG_INCLUDE_DIR"
           $env:FFMPEG_LIB_DIR     = "$env:FFMPEG_LIB_DIR"
