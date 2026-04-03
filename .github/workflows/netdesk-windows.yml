@@ -132,6 +132,7 @@ jobs:
             # Copy vcpkg's mfx.lib and rename to libmfx.lib which hwcodec expects
             if (Test-Path "$vcpkgInstalled\lib\mfx.lib") {
               Copy-Item "$vcpkgInstalled\lib\mfx.lib" "$mediaSdkDir\lib\x64\libmfx.lib" -Force
+              Copy-Item "$vcpkgInstalled\lib\mfx.lib" "$mediaSdkDir\lib\x64\mfx.lib" -Force
             }
             if (Test-Path "$vcpkgInstalled\include\mfx") {
               Copy-Item "$vcpkgInstalled\include\mfx\*" "$mediaSdkDir\include\" -Recurse -Force
@@ -174,6 +175,19 @@ jobs:
           $env:MEDIASDK_DIR       = "$env:MEDIASDK_DIR"
           $env:MEDIASDK_LIB_DIR   = "$env:MEDIASDK_LIB_DIR"
           $env:MEDIASDK_INCLUDE_DIR = "$env:MEDIASDK_INCLUDE_DIR"
+          
+          # Verify Media SDK library exists
+          Write-Host "Checking for Media SDK libraries..."
+          if (Test-Path "$env:MEDIASDK_LIB_DIR\mfx.lib") {
+            Write-Host "✓ Found mfx.lib at: $env:MEDIASDK_LIB_DIR\mfx.lib"
+          } elseif (Test-Path "$env:MEDIASDK_LIB_DIR\libmfx.lib") {
+            Write-Host "✓ Found libmfx.lib at: $env:MEDIASDK_LIB_DIR\libmfx.lib"
+          } else {
+            Write-Host "✗ Media SDK libraries not found!"
+            Get-ChildItem "$env:MEDIASDK_LIB_DIR" -ErrorAction SilentlyContinue | Select-Object Name
+            exit 1
+          }
+          
           # Set RUSTFLAGS to help the linker find FFmpeg and Media SDK and explicitly link libmfx
           $env:RUSTFLAGS          = "-L $env:FFMPEG_LIB_DIR -L $env:MEDIASDK_LIB_DIR -l mfx"
           # Expose headers and libs to the MSVC compiler/linker
