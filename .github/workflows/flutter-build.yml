@@ -25,8 +25,8 @@ env:
   SCITER_ARMV7_CMAKE_VERSION: "3.29.7"
   SCITER_NASM_DEBVERSION: "2.15.05-1"
   LLVM_VERSION: "15.0.6"
-  FLUTTER_VERSION: "3.24.5"
-  ANDROID_FLUTTER_VERSION: "3.24.5"
+  FLUTTER_VERSION: "3.27.4"
+  ANDROID_FLUTTER_VERSION: "3.27.4"
   # for arm64 linux because official Dart SDK does not work
   FLUTTER_ELINUX_VERSION: "3.16.9"
   TAG_NAME: "${{ inputs.upload-tag }}"
@@ -121,9 +121,11 @@ jobs:
       - name: Patch flutter
         shell: bash
         run: |
-          cp .github/patches/flutter_3.24.4_dropdown_menu_enableFilter.diff $(dirname $(dirname $(which flutter)))
-          cd $(dirname $(dirname $(which flutter)))
-          [[ "3.24.5" == ${{env.FLUTTER_VERSION}} ]] && git apply flutter_3.24.4_dropdown_menu_enableFilter.diff
+          if [[ "3.24.5" == ${{env.FLUTTER_VERSION}} ]]; then
+            cp .github/patches/flutter_3.24.4_dropdown_menu_enableFilter.diff $(dirname $(dirname $(which flutter)))
+            cd $(dirname $(dirname $(which flutter)))
+            git apply flutter_3.24.4_dropdown_menu_enableFilter.diff
+          fi
 
       - name: Install Rust toolchain
         uses: dtolnay/rust-toolchain@v1
@@ -365,7 +367,7 @@ jobs:
           sed -i 's/branch = "dyn"/branch = "dyn_x86"/g' ./Cargo.toml
           cargo build --features inline,vram,hwcodec --release --bins
           mkdir -p ./Release
-          mv ./target/release/rustdesk.exe ./Release/rustdesk.exe
+          mv ./target/release/netdesk.exe ./Release/rustdesk.exe
           curl -LJ -o ./Release/sciter.dll https://github.com/c-smile/sciter-sdk/raw/master/bin.win/x32/sciter.dll
           echo "output_folder=./Release" >> $GITHUB_OUTPUT
           curl -LJ -o ./usbmmidd_v2.zip https://github.com/rustdesk-org/rdev/releases/download/usbmmidd_v2/usbmmidd_v2.zip
@@ -472,12 +474,13 @@ jobs:
       - name: Patch flutter
         run: |
           cd $(dirname $(dirname $(which flutter)))
-          [[ "3.24.5" == ${{env.FLUTTER_VERSION}} ]] && git apply ${{ github.workspace }}/.github/patches/flutter_3.24.4_dropdown_menu_enableFilter.diff
+          [[ "3.24.5" == ${{env.FLUTTER_VERSION}} ]] && git apply ${{ github.workspace }}/.github/patches/flutter_3.24.4_dropdown_menu_enableFilter.diff || true
 
       - name: Setup vcpkg with Github Actions binary cache
         uses: lukka/run-vcpkg@v11
         with:
           vcpkgGitCommitId: ${{ env.VCPKG_COMMIT_ID }}
+          vcpkgDirectory: /tmp/vcpkg
           doNotCache: false
 
       - name: Install vcpkg dependencies
@@ -521,11 +524,11 @@ jobs:
           rustup target add ${{ matrix.job.target }}
           cargo build --features flutter,hwcodec --release --target aarch64-apple-ios --lib
           
-      - name: Upload liblibrustdesk.a Artifacts
+      - name: Upload libnetdesk.a Artifacts
         uses: actions/upload-artifact@master
         with:
-          name: liblibrustdesk.a
-          path: target/aarch64-apple-ios/release/liblibrustdesk.a
+          name: libnetdesk.a
+          path: target/aarch64-apple-ios/release/libnetdesk.a
 
       - name: Build rustdesk
         shell: bash
@@ -651,7 +654,7 @@ jobs:
       - name: Patch flutter
         run: |
           cd $(dirname $(dirname $(which flutter)))
-          [[ "3.24.5" == ${{env.FLUTTER_VERSION}} ]] && git apply ${{ github.workspace }}/.github/patches/flutter_3.24.4_dropdown_menu_enableFilter.diff
+          [[ "3.24.5" == ${{env.FLUTTER_VERSION}} ]] && git apply ${{ github.workspace }}/.github/patches/flutter_3.24.4_dropdown_menu_enableFilter.diff || true
 
       - name: Workaround for flutter issue
         shell: bash
@@ -682,6 +685,7 @@ jobs:
         uses: lukka/run-vcpkg@v11
         with:
           vcpkgGitCommitId: ${{ env.VCPKG_COMMIT_ID }}
+          vcpkgDirectory: /tmp/vcpkg
           doNotCache: false
 
       - name: Install vcpkg dependencies
@@ -910,7 +914,7 @@ jobs:
       - name: Patch flutter
         run: |
           cd $(dirname $(dirname $(which flutter)))
-          [[ "3.24.5" == ${{env.ANDROID_FLUTTER_VERSION}} ]] && git apply ${{ github.workspace }}/.github/patches/flutter_3.24.4_dropdown_menu_enableFilter.diff
+          [[ "3.24.5" == ${{env.ANDROID_FLUTTER_VERSION}} ]] && git apply ${{ github.workspace }}/.github/patches/flutter_3.24.4_dropdown_menu_enableFilter.diff || true
 
       - uses: nttld/setup-ndk@v1
         id: setup-ndk
@@ -981,22 +985,22 @@ jobs:
             aarch64-linux-android)
               ./flutter/ndk_arm64.sh
               mkdir -p ./flutter/android/app/src/main/jniLibs/arm64-v8a
-              cp ./target/${{ matrix.job.target }}/release/liblibrustdesk.so ./flutter/android/app/src/main/jniLibs/arm64-v8a/librustdesk.so
+              cp ./target/${{ matrix.job.target }}/release/libnetdesk.so ./flutter/android/app/src/main/jniLibs/arm64-v8a/librustdesk.so
             ;;
             armv7-linux-androideabi)
               ./flutter/ndk_arm.sh
               mkdir -p ./flutter/android/app/src/main/jniLibs/armeabi-v7a
-              cp ./target/${{ matrix.job.target }}/release/liblibrustdesk.so ./flutter/android/app/src/main/jniLibs/armeabi-v7a/librustdesk.so
+              cp ./target/${{ matrix.job.target }}/release/libnetdesk.so ./flutter/android/app/src/main/jniLibs/armeabi-v7a/librustdesk.so
             ;;
             x86_64-linux-android)
               ./flutter/ndk_x64.sh
               mkdir -p ./flutter/android/app/src/main/jniLibs/x86_64
-              cp ./target/${{ matrix.job.target }}/release/liblibrustdesk.so ./flutter/android/app/src/main/jniLibs/x86_64/librustdesk.so
+              cp ./target/${{ matrix.job.target }}/release/libnetdesk.so ./flutter/android/app/src/main/jniLibs/x86_64/librustdesk.so
             ;;
             i686-linux-android)
               ./flutter/ndk_x86.sh
               mkdir -p ./flutter/android/app/src/main/jniLibs/x86
-              cp ./target/${{ matrix.job.target }}/release/liblibrustdesk.so ./flutter/android/app/src/main/jniLibs/x86/librustdesk.so
+              cp ./target/${{ matrix.job.target }}/release/libnetdesk.so ./flutter/android/app/src/main/jniLibs/x86/librustdesk.so
             ;;
           esac
 
@@ -1004,7 +1008,7 @@ jobs:
         uses: actions/upload-artifact@master
         with:
           name: librustdesk.so.${{ matrix.job.target }}
-          path: ./target/${{ matrix.job.target }}/release/liblibrustdesk.so
+          path: ./target/${{ matrix.job.target }}/release/libnetdesk.so
 
       - name: Build rustdesk
         shell: bash
@@ -1020,7 +1024,7 @@ jobs:
             aarch64-linux-android)
               mkdir -p ./flutter/android/app/src/main/jniLibs/arm64-v8a
               cp ${ANDROID_NDK_HOME}/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/aarch64-linux-android/libc++_shared.so ./flutter/android/app/src/main/jniLibs/arm64-v8a/
-              cp ./target/${{ matrix.job.target }}/release/liblibrustdesk.so ./flutter/android/app/src/main/jniLibs/arm64-v8a/librustdesk.so
+              cp ./target/${{ matrix.job.target }}/release/libnetdesk.so ./flutter/android/app/src/main/jniLibs/arm64-v8a/librustdesk.so
               # build flutter
               pushd flutter
               flutter build apk "--${{ matrix.job.reltype }}" --target-platform android-arm64 --split-per-abi
@@ -1029,7 +1033,7 @@ jobs:
             armv7-linux-androideabi)
               mkdir -p ./flutter/android/app/src/main/jniLibs/armeabi-v7a
               cp ${ANDROID_NDK_HOME}/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/arm-linux-androideabi/libc++_shared.so ./flutter/android/app/src/main/jniLibs/armeabi-v7a/
-              cp ./target/${{ matrix.job.target }}/release/liblibrustdesk.so ./flutter/android/app/src/main/jniLibs/armeabi-v7a/librustdesk.so
+              cp ./target/${{ matrix.job.target }}/release/libnetdesk.so ./flutter/android/app/src/main/jniLibs/armeabi-v7a/librustdesk.so
               # build flutter
               pushd flutter
               flutter build apk "--${{ matrix.job.reltype }}" --target-platform android-arm --split-per-abi
@@ -1038,7 +1042,7 @@ jobs:
             x86_64-linux-android)
               mkdir -p ./flutter/android/app/src/main/jniLibs/x86_64
               cp ${ANDROID_NDK_HOME}/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/x86_64-linux-android/libc++_shared.so ./flutter/android/app/src/main/jniLibs/x86_64/
-              cp ./target/${{ matrix.job.target }}/release/liblibrustdesk.so ./flutter/android/app/src/main/jniLibs/x86_64/librustdesk.so
+              cp ./target/${{ matrix.job.target }}/release/libnetdesk.so ./flutter/android/app/src/main/jniLibs/x86_64/librustdesk.so
               # build flutter
               pushd flutter
               flutter build apk "--${{ matrix.job.reltype }}" --target-platform android-x64 --split-per-abi
@@ -1047,7 +1051,7 @@ jobs:
             i686-linux-android)
               mkdir -p ./flutter/android/app/src/main/jniLibs/x86
               cp ${ANDROID_NDK_HOME}/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/i686-linux-android/libc++_shared.so ./flutter/android/app/src/main/jniLibs/x86/
-              cp ./target/${{ matrix.job.target }}/release/liblibrustdesk.so ./flutter/android/app/src/main/jniLibs/x86/librustdesk.so
+              cp ./target/${{ matrix.job.target }}/release/libnetdesk.so ./flutter/android/app/src/main/jniLibs/x86/librustdesk.so
               # build flutter
               pushd flutter
               flutter build apk "--${{ matrix.job.reltype }}" --target-platform android-x86 --split-per-abi
@@ -1182,7 +1186,7 @@ jobs:
       - name: Patch flutter
         run: |
           cd $(dirname $(dirname $(which flutter)))
-          [[ "3.24.5" == ${{env.ANDROID_FLUTTER_VERSION}} ]] && git apply ${{ github.workspace }}/.github/patches/flutter_3.24.4_dropdown_menu_enableFilter.diff
+          [[ "3.24.5" == ${{env.ANDROID_FLUTTER_VERSION}} ]] && git apply ${{ github.workspace }}/.github/patches/flutter_3.24.4_dropdown_menu_enableFilter.diff || true
 
       - name: Restore bridge files
         uses: actions/download-artifact@master
@@ -1225,14 +1229,14 @@ jobs:
           sed -i "s/org.gradle.jvmargs=-Xmx1024M/org.gradle.jvmargs=-Xmx2g/g" ./flutter/android/gradle.properties
           # temporary use debug sign config
           sed -i "s/signingConfigs.release/signingConfigs.debug/g" ./flutter/android/app/build.gradle
-          mv ./flutter/android/app/src/main/jniLibs/arm64-v8a/liblibrustdesk.so ./flutter/android/app/src/main/jniLibs/arm64-v8a/librustdesk.so
+          mv ./flutter/android/app/src/main/jniLibs/arm64-v8a/libnetdesk.so ./flutter/android/app/src/main/jniLibs/arm64-v8a/librustdesk.so
           cp ${ANDROID_NDK_HOME}/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/aarch64-linux-android/libc++_shared.so ./flutter/android/app/src/main/jniLibs/arm64-v8a/
-          mv ./flutter/android/app/src/main/jniLibs/armeabi-v7a/liblibrustdesk.so ./flutter/android/app/src/main/jniLibs/armeabi-v7a/librustdesk.so
+          mv ./flutter/android/app/src/main/jniLibs/armeabi-v7a/libnetdesk.so ./flutter/android/app/src/main/jniLibs/armeabi-v7a/librustdesk.so
           cp ${ANDROID_NDK_HOME}/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/arm-linux-androideabi/libc++_shared.so ./flutter/android/app/src/main/jniLibs/armeabi-v7a/
-          mv ./flutter/android/app/src/main/jniLibs/x86_64/liblibrustdesk.so ./flutter/android/app/src/main/jniLibs/x86_64/librustdesk.so
+          mv ./flutter/android/app/src/main/jniLibs/x86_64/libnetdesk.so ./flutter/android/app/src/main/jniLibs/x86_64/librustdesk.so
           cp ${ANDROID_NDK_HOME}/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/x86_64-linux-android/libc++_shared.so ./flutter/android/app/src/main/jniLibs/x86_64/
           if [ "${{ env.reltype }}" = "debug" ]; then
-            mv ./flutter/android/app/src/main/jniLibs/x86/liblibrustdesk.so ./flutter/android/app/src/main/jniLibs/x86/librustdesk.so
+            mv ./flutter/android/app/src/main/jniLibs/x86/libnetdesk.so ./flutter/android/app/src/main/jniLibs/x86/librustdesk.so
             cp ${ANDROID_NDK_HOME}/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/i686-linux-android/libc++_shared.so ./flutter/android/app/src/main/jniLibs/x86/
           fi
           # build flutter
@@ -1549,7 +1553,7 @@ jobs:
             export CARGO_INCREMENTAL=0
             export DEB_ARCH=${{ matrix.job.deb_arch }}
             python3 ./build.py --flutter --skip-cargo
-            for name in rustdesk*??.deb; do
+            for name in netdesk*??.deb; do
               mv "$name" "${name%%.deb}-${{ matrix.job.arch }}.deb"
             done
 
@@ -1563,7 +1567,7 @@ jobs:
             esac
             HBB=`pwd` rpmbuild ./res/rpm-flutter.spec -bb
             pushd ~/rpmbuild/RPMS/${{ matrix.job.arch }}
-            for name in rustdesk*??.rpm; do
+            for name in netdesk*??.rpm; do
                 mv "$name" /workspace/"${name%%.rpm}.rpm"
             done
 
@@ -1577,7 +1581,7 @@ jobs:
             esac
             HBB=`pwd` rpmbuild ./res/rpm-flutter-suse.spec -bb
             pushd ~/rpmbuild/RPMS/${{ matrix.job.arch }}
-            for name in rustdesk*??.rpm; do
+            for name in netdesk*??.rpm; do
                 mv "$name" /workspace/"${name%%.rpm}-suse.rpm"
             done
 
@@ -1588,15 +1592,15 @@ jobs:
           prerelease: true
           tag_name: ${{ env.TAG_NAME }}
           files: |
-            rustdesk-*.deb
-            rustdesk-*.rpm
+            netdesk-*.deb
+            netdesk-*.rpm
 
       - name: Upload deb
         uses: actions/upload-artifact@master
         if: env.UPLOAD_ARTIFACT == 'true'
         with:
-          name: rustdesk-${{ env.VERSION }}-${{ matrix.job.arch }}.deb
-          path: rustdesk-${{ env.VERSION }}-${{ matrix.job.arch }}.deb
+          name: netdesk-${{ env.VERSION }}-${{ matrix.job.arch }}.deb
+          path: netdesk-${{ env.VERSION }}-${{ matrix.job.arch }}.deb
 
       # only x86_64 for arch since we can not find newest arm64 docker image to build
       # old arch image does not make sense for arch since it is "arch" which always update to date
@@ -1824,7 +1828,7 @@ jobs:
             cargo build --features inline${{ matrix.job.extra_features }} --release --bins --jobs 1
             # make debian package
             mkdir -p ./Release
-            mv ./target/release/rustdesk ./Release/rustdesk
+            mv ./target/release/netdesk ./Release/rustdesk
             wget -O ./Release/libsciter-gtk.so https://github.com/c-smile/sciter-sdk/raw/master/bin.lnx/${{ matrix.job.sciter_arch }}/libsciter-gtk.so
             export DEB_ARCH=${{ matrix.job.deb_arch }}
             ./build.py --package ./Release
@@ -1832,7 +1836,7 @@ jobs:
       - name: Rename rustdesk
         shell: bash
         run: |
-          for name in rustdesk*??.deb; do
+          for name in netdesk*??.deb; do
               # use cp to duplicate deb files to fit other packages.
               cp "$name" "${name%%.deb}-${{ matrix.job.arch }}-sciter.deb"
           done
@@ -1844,14 +1848,14 @@ jobs:
           prerelease: true
           tag_name: ${{ env.TAG_NAME }}
           files: |
-            rustdesk-${{ env.VERSION }}-${{ matrix.job.arch }}-sciter.deb
+            netdesk-${{ env.VERSION }}-${{ matrix.job.arch }}-sciter.deb
 
       - name: Upload deb
         uses: actions/upload-artifact@master
         if: env.UPLOAD_ARTIFACT == 'true'
         with:
-          name: rustdesk-${{ env.VERSION }}-${{ matrix.job.arch }}-sciter.deb
-          path: rustdesk-${{ env.VERSION }}-${{ matrix.job.arch }}-sciter.deb
+          name: netdesk-${{ env.VERSION }}-${{ matrix.job.arch }}-sciter.deb
+          path: netdesk-${{ env.VERSION }}-${{ matrix.job.arch }}-sciter.deb
 
   build-appimage:
     name: Build appimage ${{ matrix.job.target }}
@@ -1873,12 +1877,12 @@ jobs:
       - name: Download Binary
         uses: actions/download-artifact@master
         with:
-          name: rustdesk-${{ env.VERSION }}-${{ matrix.job.arch }}.deb
+          name: netdesk-${{ env.VERSION }}-${{ matrix.job.arch }}.deb
           path: .
 
       - name: Rename Binary
         run: |
-          mv rustdesk-${{ env.VERSION }}-${{ matrix.job.arch }}.deb appimage/rustdesk.deb
+          mv netdesk-${{ env.VERSION }}-${{ matrix.job.arch }}.deb appimage/rustdesk.deb
 
       - name: Build appimage package
         shell: bash
@@ -1946,12 +1950,12 @@ jobs:
       - name: Download Binary
         uses: actions/download-artifact@master
         with:
-          name: rustdesk-${{ env.VERSION }}-${{ matrix.job.arch }}${{ matrix.job.suffix }}.deb
+          name: netdesk-${{ env.VERSION }}-${{ matrix.job.arch }}${{ matrix.job.suffix }}.deb
           path: .
 
       - name: Rename Binary
         run: |
-          mv rustdesk-${{ env.VERSION }}-${{ matrix.job.arch }}${{ matrix.job.suffix }}.deb flatpak/rustdesk.deb
+          mv netdesk-${{ env.VERSION }}-${{ matrix.job.arch }}${{ matrix.job.suffix }}.deb flatpak/rustdesk.deb
 
       - uses: rustdesk-org/run-on-arch-action@amd64-support
         name: Build rustdesk flatpak package for ${{ matrix.job.arch }}
@@ -2019,7 +2023,7 @@ jobs:
         shell: bash
         run: |
           cd $(dirname $(dirname $(which flutter)))
-          [[ "3.24.5" == ${{env.FLUTTER_VERSION}} ]] && git apply ${{ github.workspace }}/.github/patches/flutter_3.24.4_dropdown_menu_enableFilter.diff
+          [[ "3.24.5" == ${{env.FLUTTER_VERSION}} ]] && git apply ${{ github.workspace }}/.github/patches/flutter_3.24.4_dropdown_menu_enableFilter.diff || true
 
       # https://rustdesk.com/docs/en/dev/build/web/
       - name: Build web
