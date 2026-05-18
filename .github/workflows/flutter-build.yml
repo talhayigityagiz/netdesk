@@ -1832,7 +1832,7 @@ jobs:
       - name: Rename rustdesk
         shell: bash
         run: |
-          for name in rustdesk*??.deb; do
+          for name in netdesk*??.deb; do
               # use cp to duplicate deb files to fit other packages.
               cp "$name" "${name%%.deb}-${{ matrix.job.arch }}-sciter.deb"
           done
@@ -1844,14 +1844,14 @@ jobs:
           prerelease: true
           tag_name: ${{ env.TAG_NAME }}
           files: |
-            rustdesk-${{ env.VERSION }}-${{ matrix.job.arch }}-sciter.deb
+            netdesk-${{ env.VERSION }}-${{ matrix.job.arch }}-sciter.deb
 
       - name: Upload deb
         uses: actions/upload-artifact@master
         if: env.UPLOAD_ARTIFACT == 'true'
         with:
-          name: rustdesk-${{ env.VERSION }}-${{ matrix.job.arch }}-sciter.deb
-          path: rustdesk-${{ env.VERSION }}-${{ matrix.job.arch }}-sciter.deb
+          name: netdesk-${{ env.VERSION }}-${{ matrix.job.arch }}-sciter.deb
+          path: netdesk-${{ env.VERSION }}-${{ matrix.job.arch }}-sciter.deb
 
   build-appimage:
     name: Build appimage ${{ matrix.job.target }}
