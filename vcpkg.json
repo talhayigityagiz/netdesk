@@ -21,6 +21,10 @@
       "host": false
     },
     {
+      "name": "oboe",
+      "platform": "android"
+    },
+    {
       "name": "opus",
       "host": true
     },

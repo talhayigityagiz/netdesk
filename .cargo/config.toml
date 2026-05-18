@@ -12,5 +12,20 @@ rustflags = [
 #rustflags = [
 #    "-C", "link-args=-Wl,-Bstatic -lc -Wl,-Bdynamic"
 #]
+# Override oboe-sys build script for Android targets to use vcpkg's static
+# liboboe.a instead of compiling from source (prevents duplicate symbols).
+# oboe-sys has `links = "oboe"` so cargo skips its build.rs when this is set.
+[target.aarch64-linux-android.oboe]
+rustc-link-lib = ["static=oboe", "ndk_compat", "OpenSLES", "log"]
+rustc-link-search = ["native=/opt/artifacts/vcpkg/installed/arm64-android/lib"]
+
+[target.armv7-linux-androideabi.oboe]
+rustc-link-lib = ["static=oboe", "ndk_compat", "OpenSLES", "log"]
+rustc-link-search = ["native=/opt/artifacts/vcpkg/installed/arm-android/lib"]
+
+[target.x86_64-linux-android.oboe]
+rustc-link-lib = ["static=oboe", "ndk_compat", "OpenSLES", "log"]
+rustc-link-search = ["native=/opt/artifacts/vcpkg/installed/x64-android/lib"]
+
 [net]
 git-fetch-with-cli = true
